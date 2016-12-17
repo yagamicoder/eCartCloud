@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -7,6 +10,7 @@ import { Link, IndexLink } from 'react-router';
 class App extends React.Component {
   render() {
     return (
+      <MuiThemeProvider>
       <div>
         <IndexLink to="/">Home</IndexLink>
         {' | '}
@@ -16,6 +20,7 @@ class App extends React.Component {
         <br/>
         {this.props.children}
       </div>
+    </MuiThemeProvider>
     );
   }
 }

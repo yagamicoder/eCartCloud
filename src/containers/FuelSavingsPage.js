@@ -5,6 +5,7 @@ import * as actions from '../actions/fuelSavingsActions';
 import FuelSavingsForm from '../components/FuelSavingsForm';
 
 export const FuelSavingsPage = (props) => {
+
   return (
     <FuelSavingsForm
       saveFuelSavings={props.actions.saveFuelSavings}
