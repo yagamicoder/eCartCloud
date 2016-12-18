@@ -1,41 +1,42 @@
 import React, { PropTypes } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {indigo300, indigo500, grey50, grey200, grey300, grey600, amber500 } from 'material-ui/styles/colors';
-import {fade} from 'material-ui/utils/colorManipulator';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import colors from '~/utils/colors';
+import {Header, Footer} from '~/components';
 
 class App extends React.Component {
 
   render() {
-    const muiTheme = getMuiTheme({
-      palette: {
-        primary1Color: indigo500,
-        primary2Color: amber500,
-        primary3Color: indigo300,
-        accent1Color: amber500,
-        accent2Color: grey200,
-        accent3Color: grey600,
-        textColor: indigo500,
-        alternateTextColor: grey50,
-        canvasColor: grey300,
-        borderColor: grey300,
-        disabledColor: fade(grey600, 0.3),
-        pickerHeaderColor: indigo500,
-        clockCircleColor: fade(grey600, 0.07),
-        shadowColor: grey300,
-      }
-  });
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-      <div>
-        {this.props.children}
-      </div>
-    </MuiThemeProvider>
+        <div>
+          <Header />
+          {this.props.children}
+          <Footer />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
+
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: colors.primary1Color,
+    primary2Color: colors.primary2Color,
+    primary3Color: colors.primary3Color,
+    accent1Color: colors.accent1Color,
+    accent2Color: colors.accent2Color,
+    accent3Color: colors.accent3Color,
+    textColor: colors.textColor,
+    alternateTextColor: colors.alternateTextColor,
+    canvasColor: colors.canvasColor,
+    borderColor: colors.borderColor,
+    disabledColor: colors.disabledColor,
+    pickerHeaderColor: colors.pickerHeaderColor,
+    clockCircleColor: colors.clockCircleColor,
+    shadowColor: colors.shadowColor,
+  }
+});
 
 App.propTypes = {
   children: PropTypes.element

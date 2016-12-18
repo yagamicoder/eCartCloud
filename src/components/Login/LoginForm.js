@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { indigo500 } from 'material-ui/styles/colors';
+import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { StyleSheet, css } from 'aphrodite';
 import classNames from 'classNames';
@@ -29,7 +29,7 @@ const LoginForm = () => {
             label="Login"
             primary={true}
             className={css(styles.buttonStyle)}
-            icon={<FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={indigo500}>send</FontIcon>} />
+            icon={<FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={colors.primary1Color}>send</FontIcon>} />
           </div>
         </form>
       </Col>

@@ -1,9 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {increment} from '~/actions/login';
-import {LoginForm} from '~/components/Login';
+import {LoginForm, FacebookButton} from '~/components/Login';
 import { Container, Row } from 'react-grid-system';
-import { indigo500 } from 'material-ui/styles/colors';
+import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { StyleSheet, css } from 'aphrodite';
 import classNames from 'classNames';
@@ -15,14 +15,15 @@ static propTypes = {
 render() {
   const { increment } = this.props;
     return (
-      <Container fluid={true}>
+      <Container>
         <Row>
           <div className={css(styles.rowStyle)}>
             <h1 className={css(styles.headerStyle)} onClick={() => increment(1)}>eCartCloud</h1>
-            <FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={indigo500}>shopping_cart</FontIcon>
-            </div>
+            <FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={colors.primary1Color}>shopping_cart</FontIcon>
+          </div>
         </Row>
         <LoginForm />
+        <FacebookButton />
       </Container>
     );
   }
@@ -30,13 +31,13 @@ render() {
 
 const styles = StyleSheet.create({
   headerStyle: {
-      color: indigo500,
+      color: colors.primary1Color,
       fontWeight: 200,
       display: 'inline-block',
       marginRight: '10px'
   },
   iconStyle: {
-      color: indigo500,
+      color: colors.primary1Color,
       display: 'inline-block'
   },
   rowStyle: {

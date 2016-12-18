@@ -11,10 +11,11 @@ import {persistStore} from 'redux-persist';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 import './styles/styles.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
 import { syncHistoryWithStore } from 'react-router-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin'; // Material UI is dependent on this plugin
+injectTapEventPlugin();
 
 const store = configureStore();
 persistStore(store, {'storage': localStorage});
-console.log(store);
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
