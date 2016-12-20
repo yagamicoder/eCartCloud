@@ -1,20 +1,53 @@
-import {INCREMENT} from '../constants/login';
-import objectAssign from 'object-assign';
+import { createAction, handleActions } from 'redux-actions';
+import { fromJS } from 'immutable';
+import fetch from 'isomorphic-fetch';
 
-// IMPORTANT: Note that with Redux, state should NEVER be changed.
-// State is considered immutable. Instead,
-// create a copy of the state passed and set new values on the copy.
-// Note that I'm using Object.assign to create a copy of current state
-// and update values on the copy.
-const initialState = {};
-export default function login(state = initialState, action) {
+export const SET_TOKEN = 'SET_TOKEN';
 
-  switch (action.type) {
-    case INCREMENT: {
-      const num = action.num + state.num;
-      return objectAssign({}, state, {num: num});
-    }
-    default:
-      return state;
+export const constants = {
+  SET_TOKEN
+};
+
+export const setToken = createAction('SET_TOKEN');
+export const login = (fbObj) => {
+  const accessToken = fbObj.accessToken;
+  const expires = fbObj.expiresIn;
+  const signedRequest = fbObj.signedRequest;
+  //Create the token object
+  const tokenObj = {
+    'accessToken': accessToken,
+    'expires': expires,
+    'signedRequest': signedRequest
+  };
+  return (dispatch, getState) => {
+    dispatch(setToken(tokenObj));
+    fetch('http://localhost/eCartCloudAPI/src/api.php/login/' + accessToken)
+    .then(function(response) {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then(function(response) {
+        console.log(response);
+    });
+  };
+};
+
+export const actions = {
+  login
+};
+
+
+const initialState = fromJS({});
+
+const reducer = handleActions({
+  [SET_TOKEN]: (state, {payload: tokenObj}) => {
+    return fromJS(state).set('token', fromJS(tokenObj));
   }
-}
+}, initialState);
+
+
+export default (state = initialState, action) => {
+  return fromJS(reducer(state, action));
+};

@@ -1,8 +1,8 @@
 import * as types from '../constants/login';
 
-export function login() {
+export function login(res) {
   return function (dispatch) {
-
+    console.log(res);
     return dispatch();
   };
 }
