@@ -1,19 +1,22 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {increment} from '~/actions/login';
-import {LoginForm, FacebookButton} from '~/components/Login';
-import { Container, Row } from 'react-grid-system';
+import {LoginForm, FacebookButton, LoadingProfile} from '~/components/Login';
+import {Container, Row} from 'react-grid-system';
 import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
-import { StyleSheet, css } from 'aphrodite';
+import {StyleSheet, css} from 'aphrodite';
 import classNames from 'classNames';
+import {fromJS} from 'immutable';
 
 export class LoginView extends Component {
 static propTypes = {
   increment: PropTypes.func,
+  loadingProfile: PropTypes.bool,
+  init: PropTypes.object
 }
 render() {
-  const { increment } = this.props;
+  const { increment, loadingProfile, init } = this.props;
     return (
       <Container>
         <Row>
@@ -22,8 +25,7 @@ render() {
             <FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={colors.primary1Color}>shopping_cart</FontIcon>
           </div>
         </Row>
-        <LoginForm />
-        <FacebookButton />
+        {loadingProfile ? <LoadingProfile init={init} /> : <div><LoginForm /> <FacebookButton /></div>}
       </Container>
     );
   }
@@ -50,8 +52,11 @@ const actions = {
   increment
 };
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
+  const login = fromJS(state).get('login');
   return {
+    init: login.get('init', fromJS({})),
+    loadingProfile: login.get('loadingProfile', false)
   };
 };
 

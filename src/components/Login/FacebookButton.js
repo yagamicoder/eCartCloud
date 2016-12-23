@@ -1,11 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {login} from '~/reducers/login';
-import RaisedButton from 'material-ui/RaisedButton';
-import colors from '~/utils/colors';
-import FontIcon from 'material-ui/FontIcon';
 import { StyleSheet, css } from 'aphrodite';
-import classNames from 'classNames';
 import { Row, Col } from 'react-grid-system';
 import FacebookLogin from 'react-facebook-login';
 
@@ -32,18 +28,12 @@ export class FacebookButton extends Component {
           <div className={css(styles.facebookBtnWrap)}>
             <hr/>
             <p>Or login with your Facebook account.</p>
-            <RaisedButton
-            label="Login"
-            secondary={true}
-            className={css(styles.buttonStyle)}
-            icon={<FontIcon className={classNames("fa fa-facebook", css(styles.iconStyle))} color={colors.white} />} />
-
             <FacebookLogin
               appId="1715370978779177"
               autoLoad={true}
-              fields="name,email,picture"
+              fields="name,email,picture.width(800)"
               callback={this.handleFacebookResponse}
-              cssClass="my-facebook-button-class"
+              cssClass="buttonOveride"
               icon="fa-facebook" />
           </div>
         </Col>
@@ -53,21 +43,8 @@ export class FacebookButton extends Component {
 }
 
 const styles = StyleSheet.create({
-  iconStyle: {
-      color: '#fff'
-  },
   facebookBtnWrap: {
     padding: '15px 0',
-    textAlign: 'center'
-  },
-  buttonStyle: {
-    marginTop: '15px'
-  },
-  formStyle: {
-    margin: '0 auto',
-    display: 'block'
-  },
-  buttonWrap: {
     textAlign: 'center'
   }
 });
@@ -76,7 +53,7 @@ const actions = {
   login
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {
   };
 };

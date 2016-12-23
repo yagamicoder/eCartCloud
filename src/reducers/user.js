@@ -3,12 +3,19 @@ import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
 import { apiUrl } from '~/api/apiUrl';
 
+// ------------------------------------
+// Constants
+// ------------------------------------
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 export const constants = {
   SET_USER_PROFILE
 };
 
+
+// ------------------------------------
+// Actions
+// ------------------------------------
 export const setUserProfile = createAction('SET_USER_PROFILE');
 
 
@@ -19,13 +26,16 @@ export const actions = {
 
 const initialState = fromJS({});
 
+// ------------------------------------
+// Reducers
+// ------------------------------------
 const reducer = handleActions({
   [SET_USER_PROFILE]: (state, {payload: userObj}) => {
-    return fromJS(state).set('entities', fromJS(userObj));
+    return state.set('entities', fromJS(userObj));
   }
 }, initialState);
 
 
 export default (state = initialState, action) => {
-  return fromJS(reducer(state, action));
+  return reducer(fromJS(state), action);
 };

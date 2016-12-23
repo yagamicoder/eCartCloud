@@ -1,39 +1,34 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
-import { apiUrl } from '~/api/apiUrl';
-import { setUserProfile } from '~/reducers/user';
+import { setUserProfile } from '../reducers/user';
+import { browserHistory } from 'react-router';
+import apiUrl from '~/api/apiUrl';
 
-/*************************
-
-      Constants
-
-*************************/
-export const SET_TOKEN = 'SET_TOKEN';
+// ------------------------------------
+// Constants
+// ------------------------------------
+export const SET_LOGIN_DETAILS = 'SET_LOGIN_DETAILS';
+export const SET_LOADING_SCREEN = 'SET_LOADING_SCREEN';
 
 export const constants = {
-  SET_TOKEN
+  SET_LOGIN_DETAILS,
+  SET_LOADING_SCREEN
 };
 
-/*************************
+// ------------------------------------
+// Actions
+// ------------------------------------
+export const setloginDetails = createAction('SET_LOGIN_DETAILS');
+export const setLoadingScreen = createAction('SET_LOADING_SCREEN');
 
-      Actions
-
-*************************/
-export const setToken = createAction('SET_TOKEN');
 export const login = (fbObj) => {
-  const accessToken = fbObj.accessToken;
-  const expires = fbObj.expiresIn;
-  const signedRequest = fbObj.signedRequest;
-  //Create the token object
-  const tokenObj = {
-    'accessToken': accessToken,
-    'expires': expires,
-    'signedRequest': signedRequest
-  };
-  return (dispatch, getState) => {
-    //Dump init login info into the login token state
-    dispatch(setToken(tokenObj));
+  return (dispatch) => {
+    const accessToken = fbObj.accessToken;
+    //Set the loading screen
+    dispatch(setLoadingScreen(true));
+    //Dump init login info into the login init prop
+    dispatch(setloginDetails(fbObj));
     fetch(apiUrl + '/login/' + accessToken)
     .then(function(response) {
         if (response.status >= 400) {
@@ -54,6 +49,10 @@ export const login = (fbObj) => {
           'picture': fbObj.picture
         };
         dispatch(setUserProfile(userObj));
+        setTimeout(() => {
+          browserHistory.push('/registrationStep2');
+          dispatch(setLoadingScreen(false));
+        }, 5000);
     });
   };
 };
@@ -65,18 +64,19 @@ export const actions = {
 
 const initialState = fromJS({});
 
-/*************************
-
-      Reducers
-
-*************************/
+// ------------------------------------
+// Reducers
+// ------------------------------------
 const reducer = handleActions({
-  [SET_TOKEN]: (state, {payload: tokenObj}) => {
-    return fromJS(state).set('token', fromJS(tokenObj));
+  [SET_LOGIN_DETAILS]: (state, {payload: loginObj}) => {
+    return state.set('init', fromJS(loginObj));
+  },
+  [SET_LOADING_SCREEN]: (state, {payload: flag}) => {
+    return state.set('loadingProfile', flag);
   }
 }, initialState);
 
 
 export default (state = initialState, action) => {
-  return fromJS(reducer(state, action));
+  return reducer(fromJS(state), action);
 };
