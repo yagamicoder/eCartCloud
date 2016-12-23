@@ -1,7 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
-import { apiUrl } from '~/api/apiUrl';
 
 // ------------------------------------
 // Constants

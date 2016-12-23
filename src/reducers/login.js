@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
 import { setUserProfile } from '../reducers/user';
 import { browserHistory } from 'react-router';
-import apiUrl from '~/api/apiUrl';
+import apiUrl from '../api/apiUrl';
 
 // ------------------------------------
 // Constants
@@ -27,7 +27,7 @@ export const login = (fbObj) => {
     const accessToken = fbObj.accessToken;
     //Set the loading screen
     dispatch(setLoadingScreen(true));
-    //Dump init login info into the login init prop
+    //Dump login info into the login init prop
     dispatch(setloginDetails(fbObj));
     fetch(apiUrl + '/login/' + accessToken)
     .then(function(response) {
