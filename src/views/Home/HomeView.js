@@ -1,20 +1,16 @@
-import React, {PropTypes, Component} from 'react';
-import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import {Container, Row} from 'react-grid-system';
 import {StyleSheet, css} from 'aphrodite';
-import classNames from 'classNames';
-import {fromJS} from 'immutable';
+import { ProductView } from '~/components';
 
-export class HomeView extends Component {
-  static propTypes = {
-  }
+export default class HomeView extends Component {
   render() {
       return (
         <div>
           <Container>
             <Row>
               <div className={css(styles.wrapper)}>
-                home view
+                <ProductView />
               </div>
             </Row>
           </Container>
@@ -28,16 +24,3 @@ const styles = StyleSheet.create({
     paddingLeft: '210px'
   }
 });
-
-const actions = {
-
-};
-
-const mapStateToProps = (state) => {
-  const login = fromJS(state).get('login');
-  return {
-  };
-};
-
-
-export default connect(mapStateToProps, actions)(HomeView);

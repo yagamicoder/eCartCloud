@@ -37,7 +37,7 @@ class Header extends Component {
               	 	  color={colors.primary1Color}>person</FontIcon>
               	 	 Profile
               	 	</MenuItem>
-              	 	<MenuItem>
+              	 	<MenuItem containerElement={<Link to="/settings" />}>
               	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))} 
               	 	  color={colors.primary1Color}>settings</FontIcon>
               	 	 Settings
