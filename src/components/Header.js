@@ -10,6 +10,7 @@ import FontIcon from 'material-ui/FontIcon';
 import colors from '~/utils/colors';
 import {fromJS} from 'immutable';
 import classNames from 'classNames';
+import {Link} from 'react-router';
 
 class Header extends Component {
   static proptypes = {
@@ -31,7 +32,7 @@ class Header extends Component {
               	 	<IconButton style={{padding: '0px', width: '24px', height: '24px'}}>
               	 	<FontIcon className={classNames("material-icons", css(styles.iconStyle))} 
               	 	color={colors.primary1Color}>expand_more</FontIcon></IconButton>}>
-              	 	<MenuItem>
+              	 	<MenuItem containerElement={<Link to="/profile" />}>
               	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))} 
               	 	  color={colors.primary1Color}>person</FontIcon>
               	 	 Profile
