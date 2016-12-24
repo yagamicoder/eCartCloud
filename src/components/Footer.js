@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
       width: '100vw',
       left: '0px',
       textAlign: 'center',
-      color: colors.white
+      color: colors.white,
+      zIndex: '99999'
     },
     bottomNavStyles: {
       backgroundColor: colors.primary1Color,

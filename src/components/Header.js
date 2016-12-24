@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 
 class Header extends Component {
   render () {
     return (
-      <div />
+      <header>
+      	sdsdfdsf
+       </header>
     );
   }
 }

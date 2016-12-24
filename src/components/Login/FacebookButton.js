@@ -18,7 +18,10 @@ export class FacebookButton extends Component {
 
   handleFacebookResponse (response) {
     const { login } = this.props;
-    login(response);
+    //Only call login if you have access token
+    if (response.accessToken) {
+      login(response);
+    }
   }
 
   render () {

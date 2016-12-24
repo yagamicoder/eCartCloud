@@ -50,7 +50,7 @@ export const login = (fbObj) => {
         };
         dispatch(setUserProfile(userObj));
         setTimeout(() => {
-          browserHistory.push('/registrationStep2');
+          browserHistory.push('/welcome');
           dispatch(setLoadingScreen(false));
         }, 5000);
     });

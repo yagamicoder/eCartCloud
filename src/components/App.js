@@ -2,15 +2,16 @@ import React, { PropTypes } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import colors from '~/utils/colors';
-import {Header, Footer} from '~/components';
+import {fade} from 'material-ui/utils/colorManipulator';
+import {Header, Footer, NavMenu} from '~/components';
 
 class App extends React.Component {
-
   render() {
+    const path = window.location.pathname;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <Header />
+          {path !== '/' ? <div> <Header /> <NavMenu /> </div> : null}       
           {this.props.children}
           <Footer />
         </div>
@@ -35,7 +36,11 @@ const muiTheme = getMuiTheme({
     pickerHeaderColor: colors.pickerHeaderColor,
     clockCircleColor: colors.clockCircleColor,
     shadowColor: colors.shadowColor,
-  }
+  },
+  toolbar: {
+      backgroundColor: colors.primary1Color,
+      iconColor: fade(colors.textColor, 0.4)
+    }
 });
 
 App.propTypes = {
