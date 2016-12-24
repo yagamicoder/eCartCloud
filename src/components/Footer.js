@@ -11,7 +11,7 @@ const Footer = () => {
         <Row className={css(styles.textStyles)}>
           <div className={css(styles.bottomNavStyles)}>
             <span className={css(styles.footerItem)}><FontIcon className="material-icons" color={colors.white}>shopping_cart</FontIcon></span>
-            <span className={css(styles.footerItem)}>Copyright @2016</span>
+            <span className={css(styles.footerItem)}>Copyright 2016</span>
           </div>
         </Row>
       </Container>

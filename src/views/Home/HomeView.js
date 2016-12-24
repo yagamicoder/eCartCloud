@@ -14,7 +14,7 @@ export class HomeView extends Component {
           <Container>
             <Row>
               <div className={css(styles.wrapper)}>
-                fdfsdfsd
+                home view
               </div>
             </Row>
           </Container>
