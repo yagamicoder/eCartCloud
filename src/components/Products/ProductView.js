@@ -1,39 +1,39 @@
-import React, {PropTypes, Component} from 'react';
-import {connect} from 'react-redux';
-import {Container, Row} from 'react-grid-system';
-import {StyleSheet, css} from 'aphrodite';
-import classNames from 'classNames';
-import {fromJS} from 'immutable';
-import { ProductSearch } from '~/components/';
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+import { fromJS } from 'immutable';
+import { ProductSearch, ProductResults } from '~/components/';
+import { searchProducts } from '~/reducers/products';
 
 export class ProductView extends Component {
-  static propTypes = {
-  }
-  render() {
-      return (
-        <div>
-          <div>
-            <ProductSearch />
-          </div>
-        </div>
-      );
+    static propTypes = {
+        searchProducts: PropTypes.func,
+        prods: PropTypes.object
+    };
+
+    render() {
+        const { searchProducts, prods } = this.props;
+        return (
+            <div>
+              <div>
+                <ProductSearch searchProducts={searchProducts} />
+                <ProductResults products={prods} />
+              </div>
+            </div>
+        );
     }
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingLeft: '210px'
-  }
-});
 
 const actions = {
-
+    searchProducts
 };
 
 const mapStateToProps = (state) => {
-  const login = fromJS(state).get('login');
-  return {
-  };
+    const products = fromJS(state).get('products');
+    const prods = products.get('products', fromJS([]));
+    return {
+        prods: prods
+    };
 };
 
 

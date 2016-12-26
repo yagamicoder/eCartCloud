@@ -4,6 +4,7 @@ import Header from './Header';
 import NavMenu from './NavMenu';
 import ProductView from './Products/ProductView';
 import ProductSearch from './Products/ProductSearch';
+import ProductResults from './Products/ProductResults';
 
 export {
   App,
@@ -11,5 +12,6 @@ export {
   Header,
   NavMenu,
   ProductView,
-  ProductSearch
+  ProductSearch,
+  ProductResults
 };

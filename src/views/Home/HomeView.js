@@ -6,7 +6,7 @@ import { ProductView } from '~/components';
 export default class HomeView extends Component {
   render() {
       return (
-        <div>
+        <div className={css(styles.outerWrap)}>
           <Container>
             <Row>
               <div className={css(styles.wrapper)}>
@@ -22,5 +22,8 @@ export default class HomeView extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: '210px'
+  },
+  outerWrap: {
+    paddingBottom: '80px'
   }
 });

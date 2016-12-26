@@ -1,12 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
-import {Container, Row} from 'react-grid-system';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 import FontIcon from 'material-ui/FontIcon';
 import {StyleSheet, css} from 'aphrodite';
 import classNames from 'classNames';

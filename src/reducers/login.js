@@ -30,14 +30,14 @@ export const login = (fbObj) => {
     //Dump login info into the login init prop
     dispatch(setloginDetails(fbObj));
     fetch(apiUrl + '/login/' + accessToken)
-    .then(function(response) {
+      .then(function(response) {
         if (response.status >= 400) {
-            throw new Error("Bad response from server");
+          throw new Error("Bad response from server");
         }
         return response.json();
-    })
-    .then(function(data) {
-      //Build the user object and set it in the user branch of the state tree
+      })
+      .then(function(data) {
+        //Build the user object and set it in the user branch of the state tree
         const userObj = {
           'id': data.id,
           'first_name': data.first_name,
@@ -53,7 +53,7 @@ export const login = (fbObj) => {
           browserHistory.push('/welcome');
           dispatch(setLoadingScreen(false));
         }, 5000);
-    });
+      });
   };
 };
 

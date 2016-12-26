@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
+import apiUrl from '../api/apiUrl';
 
 // ------------------------------------
 // Constants
@@ -16,10 +17,23 @@ export const constants = {
 // Actions
 // ------------------------------------
 export const setProducts = createAction('SET_PRODUCTS');
-
+export const searchProducts = (query) => {
+	return (dispatch) => {
+		fetch(apiUrl + '/search/' + query)
+			.then(function(response) {
+				if (response.status >= 400) {
+					throw new Error("Bad response from server");
+				}
+				return response.json();
+			}).then(function(data) {
+				console.log(data);
+				dispatch(setProducts(data.items));
+			});
+	};
+};
 
 export const actions = {
-  setProducts
+  searchProducts
 };
 
 
@@ -29,12 +43,12 @@ const initialState = fromJS({});
 // Reducers
 // ------------------------------------
 const reducer = handleActions({
-  [SET_PRODUCTS]: (state, {payload: products}) => {
-    return state.set('entities', fromJS(products));
+  [SET_PRODUCTS]: (state, {payload: prods}) => {
+    return state.set('products', fromJS(prods));
   }
 }, initialState);
 
 
 export default (state = initialState, action) => {
-  return reducer(fromJS(state), action);
+	return reducer(fromJS(state), action);
 };
