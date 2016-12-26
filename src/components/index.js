@@ -7,6 +7,7 @@ import ProductSearch from './Products/ProductSearch';
 import ProductResults from './Products/ProductResults';
 import LoadingProducts from './Products/LoadingProducts';
 import NoProductsView from './Products/NoProductsView';
+import ProductDetails from './Products/ProductDetails';
 
 export {
   App,
@@ -17,5 +18,6 @@ export {
   ProductSearch,
   ProductResults,
   LoadingProducts,
-  NoProductsView
+  NoProductsView,
+  ProductDetails
 };

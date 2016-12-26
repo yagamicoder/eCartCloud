@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { truncate, isEmpty } from 'lodash';
 import { NoProductsView } from '~/components';
 
-const ProductResults = ({products, query}) => {
+const ProductResults = ({products, query, selectProduct}) => {
 	//Iterate through all of the results
 	const mappedProducts = !isEmpty(query) ? products.map(product => {
 		//Grab the properties that we want
@@ -39,6 +39,7 @@ const ProductResults = ({products, query}) => {
 						primary={true}
 						className={css(styles.buttonStyle)}
 						containerElement={<Link to={'/product/' + id} />}
+						onClick={() => selectProduct(id)}
 						icon={
 								<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
 								color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
@@ -71,15 +72,15 @@ const styles = StyleSheet.create({
 	retailPrice: {
 		color: colors.primary1Color,
 		textDecoration: 'line-through',
-		padding: '0 7px'
+		padding: '0 4px'
 	},
 	salesPrice: {
 		color: colors.accent1Color,
-		padding: '0 7px'
+		padding: '0 4px'
 	},
 	noSalesPrice: {
 		color: colors.primary1Color,
-		padding: '0 7px'
+		padding: '0 4px'
 	},
 	productTitle: {
 		color: colors.primary1Color,
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
 
 ProductResults.propTypes = {
 	products: PropTypes.object,
-	query: PropTypes.string
+	query: PropTypes.string,
+	selectProduct: PropTypes.func
 };
 
 export default ProductResults;

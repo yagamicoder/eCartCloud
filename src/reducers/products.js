@@ -11,12 +11,14 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const SET_LOADING_PRODUCTS = 'SET_LOADING_PRODUCTS';
 export const SET_NO_PRODUCTS = 'SET_NO_PRODUCTS';
 export const SET_QUERY = 'SET_QUERY';
+export const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT';
 
 export const constants = {
   SET_PRODUCTS,
   SET_LOADING_PRODUCTS,
   SET_NO_PRODUCTS,
-  SET_QUERY
+  SET_QUERY,
+  SET_CURRENT_PRODUCT
 };
 
 
@@ -27,6 +29,9 @@ export const setProducts = createAction('SET_PRODUCTS');
 export const setLoadingProducts = createAction('SET_LOADING_PRODUCTS');
 export const setNoProducts = createAction('SET_NO_PRODUCTS');
 export const setQuery = createAction('SET_QUERY');
+export const setCurrentProduct = createAction('SET_CURRENT_PRODUCT');
+
+//Search for the products
 export const searchProducts = (query) => {
 	return (dispatch) => {
 		//Set the loading screen
@@ -48,9 +53,25 @@ export const searchProducts = (query) => {
 	};
 };
 
+//Grab the current product data and place into product detail view
+export const selectProduct = (id) => {
+	return(dispatch) => {
+		fetch(apiUrl + '/items/' + id)
+			.then(function(response) {
+				if (response.status >= 400) {
+					throw new Error("Bad response from server");
+				}
+				return response.json();
+			}).then(function(data) {
+				dispatch(setCurrentProduct(data));
+			});
+	};
+};
+
 export const actions = {
   searchProducts,
-  setLoadingProducts
+  setLoadingProducts,
+  selectProduct
 };
 
 
@@ -71,6 +92,9 @@ const reducer = handleActions({
   },
   [SET_QUERY]: (state, {payload: query}) => {
   	return state.set('query', query);
+  },
+  [SET_CURRENT_PRODUCT]: (state, {payload: currentProduct}) => {
+  	return state.set('currentProduct', fromJS(currentProduct));
   }
 }, initialState);
 
