@@ -17,7 +17,7 @@ export class ProductView extends Component {
         return (
             <div>
               <div>
-                <ProductSearch searchProducts={searchProducts} query={query} />
+                <ProductSearch searchProducts={searchProducts} />
                 {loading ? <LoadingProducts /> : <ProductResults products={prods} query={query} />}            
               </div>
             </div>
