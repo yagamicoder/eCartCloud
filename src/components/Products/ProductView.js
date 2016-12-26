@@ -1,22 +1,24 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
-import { ProductSearch, ProductResults } from '~/components/';
+import { ProductSearch, ProductResults, LoadingProducts } from '~/components/';
 import { searchProducts } from '~/reducers/products';
 
 export class ProductView extends Component {
     static propTypes = {
         searchProducts: PropTypes.func,
-        prods: PropTypes.object
+        prods: PropTypes.object,
+        loading: PropTypes.bool,
+        query: PropTypes.string
     };
 
     render() {
-        const { searchProducts, prods } = this.props;
+        const { searchProducts, prods, loading, query } = this.props;
         return (
             <div>
               <div>
-                <ProductSearch searchProducts={searchProducts} />
-                <ProductResults products={prods} />
+                <ProductSearch searchProducts={searchProducts} query={query} />
+                {loading ? <LoadingProducts /> : <ProductResults products={prods} query={query} />}            
               </div>
             </div>
         );
@@ -31,8 +33,12 @@ const actions = {
 const mapStateToProps = (state) => {
     const products = fromJS(state).get('products');
     const prods = products.get('products', fromJS([]));
+    const loading = products.get('loading', false);
+    const query = products.get('query', '');
     return {
-        prods: prods
+        prods: prods,
+        loading: loading,
+        query: query
     };
 };
 

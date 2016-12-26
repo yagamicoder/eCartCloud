@@ -5,6 +5,8 @@ import NavMenu from './NavMenu';
 import ProductView from './Products/ProductView';
 import ProductSearch from './Products/ProductSearch';
 import ProductResults from './Products/ProductResults';
+import LoadingProducts from './Products/LoadingProducts';
+import NoProductsView from './Products/NoProductsView';
 
 export {
   App,
@@ -13,5 +15,7 @@ export {
   NavMenu,
   ProductView,
   ProductSearch,
-  ProductResults
+  ProductResults,
+  LoadingProducts,
+  NoProductsView
 };

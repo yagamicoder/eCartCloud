@@ -6,11 +6,12 @@ import colors from '~/utils/colors';
 import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router';
-import { truncate } from 'lodash';
+import { truncate, isEmpty } from 'lodash';
+import { NoProductsView } from '~/components';
 
-const ProductResults = ({products}) => {
+const ProductResults = ({products, query}) => {
 	//Iterate through all of the results
-	const mappedProducts = products.map(product => {
+	const mappedProducts = !isEmpty(query) ? products.map(product => {
 		//Grab the properties that we want
 		const id = product.get('itemId');
 		const name = product.get('name');
@@ -34,17 +35,17 @@ const ProductResults = ({products}) => {
 					}
 					<p>{shortDesc}</p>
 					<RaisedButton
-					label="VIEW PRODUCT"
-					primary={true}
-					className={css(styles.buttonStyle)}
-					containerElement={<Link to={'/product/' + id} />}
-					icon={
-							<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
-							color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
+						label="VIEW PRODUCT"
+						primary={true}
+						className={css(styles.buttonStyle)}
+						containerElement={<Link to={'/product/' + id} />}
+						icon={
+								<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
+								color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
 				</div>
 			</article>
 			);
-	});
+	}) : <NoProductsView />;
 	return (
 		<div>	
 			{mappedProducts}
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
 });
 
 ProductResults.propTypes = {
-	products: PropTypes.object
+	products: PropTypes.object,
+	query: PropTypes.string
 };
 
 export default ProductResults;
