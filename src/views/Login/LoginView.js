@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
-import {increment} from '~/actions/login';
 import {LoginForm, FacebookButton, LoadingProfile} from '~/components/Login';
 import {Container, Row} from 'react-grid-system';
 import colors from '~/utils/colors';
@@ -11,17 +10,16 @@ import {fromJS} from 'immutable';
 
 export class LoginView extends Component {
 static propTypes = {
-  increment: PropTypes.func,
   loadingProfile: PropTypes.bool,
   init: PropTypes.object
 }
 render() {
-  const { increment, loadingProfile, init } = this.props;
+  const { loadingProfile, init } = this.props;
     return (
       <Container>
         <Row>
           <div className={css(styles.rowStyle)}>
-            <h1 className={css(styles.headerStyle)} onClick={() => increment(1)}>eCartCloud</h1>
+            <h1 className={css(styles.headerStyle)}>eCartCloud</h1>
             <FontIcon className={classNames("material-icons", css(styles.iconStyle))} color={colors.primary1Color}>shopping_cart</FontIcon>
           </div>
         </Row>
@@ -49,7 +47,6 @@ const styles = StyleSheet.create({
 });
 
 const actions = {
-  increment
 };
 
 const mapStateToProps = (state) => {

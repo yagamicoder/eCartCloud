@@ -7,6 +7,7 @@ import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
 import { unescape, round, range } from 'lodash';
 import sanitize from 'sanitize-html';
+import { ProductReviews } from '~/components';
 
 //Handle star icons
 const displayStars = (rating) => {
@@ -50,7 +51,6 @@ const ProductDetails = ({currentProduct}) => {
 					<p>Stock: {stock}</p>
 					<p>Brand: {brandName}</p>
 					<p>Rating: {displayStars(customerRating)}</p>
-					<p>{sanitize(longDesc, {allowedTags: []})}</p>
 					<RaisedButton
 						label="ADD TO CART"
 						secondary={true}
@@ -72,11 +72,16 @@ const ProductDetails = ({currentProduct}) => {
 									</FontIcon>} />			
 				</div>
 			</article>
+			<div><p className={css(styles.desc)}>{sanitize(longDesc, {allowedTags: []})}</p></div>
+			<ProductReviews />
 		</div>
 	);
 };
 
 const styles = StyleSheet.create({
+	desc: {
+		fontSize: '0.8em'
+	},
 	iconStyle: {
 		color: '#fff'
 	},

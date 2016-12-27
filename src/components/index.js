@@ -9,6 +9,9 @@ import LoadingProducts from './Products/LoadingProducts';
 import NoProductsView from './Products/NoProductsView';
 import ProductDetails from './Products/ProductDetails';
 import LoadingProductDetails from './Products/LoadingProductDetails';
+import ProductReviews from './Products/ProductReviews';
+import DisplayReviews from './Products/DisplayReviews';
+import AddReview from './Products/AddReview';
 
 export {
   App,
@@ -21,5 +24,8 @@ export {
   LoadingProducts,
   NoProductsView,
   ProductDetails,
-  LoadingProductDetails
+  LoadingProductDetails,
+  ProductReviews,
+  DisplayReviews,
+  AddReview
 };
