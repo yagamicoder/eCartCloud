@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { truncate, isEmpty } from 'lodash';
 import { NoProductsView } from '~/components';
 
-const ProductResults = ({products, query, selectProduct}) => {
+const ProductResults = ({products, query, selectProduct, error}) => {
 	//Iterate through all of the results
 	const mappedProducts = !isEmpty(query) ? products.map(product => {
 		//Grab the properties that we want
@@ -41,15 +41,24 @@ const ProductResults = ({products, query, selectProduct}) => {
 						containerElement={<Link to={'/product/' + id} />}
 						onClick={() => selectProduct(id)}
 						icon={
-								<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
-								color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
+							<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
+							color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
 				</div>
 			</article>
 			);
 	}) : <NoProductsView />;
 	return (
-		<div>	
-			{mappedProducts}
+		<div>
+		{error ?
+			<article className={css(styles.errorStyle)}>
+				<h3 className={css(styles.errorMessage)}>Error loading products. Please trying again later.</h3>
+				<p>Maybe try searching again?</p>
+				<div>
+					<FontIcon className={classNames("material-icons", css(styles.errorIcon))}
+						color={colors.primary1Color}>error</FontIcon>
+				</div>	
+			</article>	: mappedProducts
+			}
 		</div>
 	);
 };
@@ -58,6 +67,10 @@ const styles = StyleSheet.create({
 	iconStyle: {
 		color: '#fff'
 	},
+	errorIcon: {
+		textAlign: 'center',
+		fontSize: '6em'
+	},
 	buttonStyle: {
 		marginTop: '15px'
 	},
@@ -65,6 +78,10 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		padding: '25px 0',
 		borderBottom: '1px solid #E0E0E0'
+	},
+	errorStyle: {
+		padding: '25px 0',
+		textAlign: 'center'
 	},
 	articleCol: {
 		flex: '2'
@@ -85,13 +102,19 @@ const styles = StyleSheet.create({
 	productTitle: {
 		color: colors.primary1Color,
 		fontWeight: 'normal'
+	},
+	errorMessage: {
+		color: colors.primary1Color,
+		fontWeight: 'normal',
+		textAlign: 'center'
 	}
 });
 
 ProductResults.propTypes = {
 	products: PropTypes.object,
 	query: PropTypes.string,
-	selectProduct: PropTypes.func
+	selectProduct: PropTypes.func,
+	error: PropTypes.bool
 };
 
 export default ProductResults;

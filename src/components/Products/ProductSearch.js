@@ -7,18 +7,18 @@ import { debounce } from 'lodash';
 */
 const handleSearchProducts = debounce((searchProducts, query) => {
 		searchProducts(query);
-}, 6000);
+}, 1500);
 
 const ProductSearch = ({searchProducts}) => {
-    return (
-			<div>
-				<TextField
-					hintText="Search for products"
-					floatingLabelText="Search for products"
-					fullWidth={true} 
-					onChange={({target}) => handleSearchProducts(searchProducts, target.value)}/>
-			</div>
-    );
+  return (
+		<div>
+			<TextField
+				hintText="Search for products"
+				floatingLabelText="Search for products"
+				fullWidth={true} 
+				onChange={({target}) => handleSearchProducts(searchProducts, target.value)}/>
+		</div>
+  );
 };
 
 ProductSearch.propTypes = {

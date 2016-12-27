@@ -22,7 +22,6 @@ const displayStars = (rating) => {
 };
 
 const ProductDetails = ({currentProduct}) => {
-	console.log(currentProduct);
 	//Grab the properties that we want
 	const id = currentProduct.get('itemId');
 	const name = currentProduct.get('name');
