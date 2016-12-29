@@ -1,27 +1,51 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import FontIcon from 'material-ui/FontIcon';
 import colors from '~/utils/colors';
-import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
+import serialize from 'form-serialize';
+import { merge, isEmpty } from 'lodash';
 
-const AddReview = () => {
+const validate = (formData) => {
+	const rating = formData.get('rating', '1');
+	const reviewText = formData.get('reviewText', '');
+	const title = formData.get('title', '');
+	if(!isEmpty(title) && !isEmpty(reviewText) && !isEmpty(rating)) {
+		return false;
+	} else {
+		return true;
+	}
+};
+
+const AddReview = ({setFormData, formData, addReview}) => {
 	return (
 		<div className={css(styles.addReviewWrap)}>
 			<p className={css(styles.desc)}>Add a review</p>
-			<form id="addReviewForm">
-				<TextField
-		      floatingLabelText="Title"
-    		/>
-    		<TextField
-		      floatingLabelText="Type your review here..."
-		      multiLine={true}
-		      fullWidth={true}
-    		/>
+			<form id="addReviewForm" action="javascript:void(0);">
+				<TextField 
+					floatingLabelText="Title" fullWidth={true} name="title"
+					value={formData.get('title', '')}
+					onChange={() => {
+						const form = document.querySelector('#addReviewForm');
+						setFormData(serialize(form, {hash: true}));
+					}}
+				/>
+    		<TextField floatingLabelText="Type your review here..." 
+					fullWidth={true} multiLine={true} name="reviewText"
+					value={formData.get('reviewText', '')}
+					onChange={() => {
+						const form = document.querySelector('#addReviewForm');
+						setFormData(serialize(form, {hash: true}));
+					}} 
+				/>
     		<p>Rating</p>
-    		<RadioButtonGroup name="reviewStars" defaultSelected="not_light">
+    		<RadioButtonGroup name="rating" defaultSelected="1" valueSelected={formData.get('rating', '1')}
+    			onChange={(event, value) => {
+    				const form = document.querySelector('#addReviewForm');
+    				const rating = {"rating": value};
+    				setFormData(merge(serialize(form, {hash: true}), rating));
+    			}}>
 		      <RadioButton
 		        value="1"
 		        label="1"
@@ -48,7 +72,9 @@ const AddReview = () => {
         	style={radioStyle}
         	/>
     		</RadioButtonGroup>
-    		<RaisedButton label="Submit" secondary={true} className={css(styles.submitBtn)} />
+    		<RaisedButton disabled={validate(formData)} 
+    			label="Submit" secondary={true} className={css(styles.submitBtn)} 
+    			onClick={() => addReview(formData)} />
 			</form>
 		</div>
 	);
@@ -82,6 +108,11 @@ const radioStyle = {
 	display: 'inline-block',
 	width: 'auto',
 	margin: '0 7px'
-}
+};
+
+AddReview.propTypes = {
+	setFormData: PropTypes.func,
+  formData: PropTypes.object
+};
 
 export default AddReview;

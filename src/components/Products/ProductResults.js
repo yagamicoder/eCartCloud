@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { truncate, isEmpty } from 'lodash';
 import { NoProductsView } from '~/components';
 
-const ProductResults = ({products, query, selectProduct, error}) => {
+const ProductResults = ({products, query, selectProduct, error, fetchReviews}) => {
 	//Iterate through all of the results
 	const mappedProducts = !isEmpty(query) ? products.map(product => {
 		//Grab the properties that we want
@@ -30,8 +30,8 @@ const ProductResults = ({products, query, selectProduct, error}) => {
 					Price:
 					{retailPrice ? <span className={css(styles.retailPrice)}>${retailPrice}</span> : null}
 					{retailPrice ? 
-						<span className={css(styles.salesPrice)}>${salePrice}</span>
-						: <span className={css(styles.noSalesPrice)}>${salePrice}</span>
+						<span className={css(styles.salesPrice)}>${salePrice}</span> :
+						<span className={css(styles.noSalesPrice)}>${salePrice}</span>
 					}
 					<p>{shortDesc}</p>
 					<RaisedButton
@@ -39,7 +39,7 @@ const ProductResults = ({products, query, selectProduct, error}) => {
 						primary={true}
 						className={css(styles.buttonStyle)}
 						containerElement={<Link to={'/product/' + id} />}
-						onClick={() => selectProduct(id)}
+						onClick={() => { selectProduct(id); fetchReviews(id); }}
 						icon={
 							<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
 							color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
@@ -114,6 +114,7 @@ ProductResults.propTypes = {
 	products: PropTypes.object,
 	query: PropTypes.string,
 	selectProduct: PropTypes.func,
+	fetchReviews: PropTypes.func,
 	error: PropTypes.bool
 };
 

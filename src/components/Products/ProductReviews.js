@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import { DisplayReviews, AddReview } from '~/components/';
 import { searchProducts, selectProduct } from '~/reducers/products';
+import { setFormData, addReview } from  '~/reducers/reviews';
 import FontIcon from 'material-ui/FontIcon';
 import colors from '~/utils/colors';
 import classNames from 'classNames';
@@ -10,24 +11,28 @@ import { StyleSheet, css } from 'aphrodite';
 
 export class ProductReviews extends Component {
   static propTypes = {
-      
+      reviews: PropTypes.object,
+      setFormData: PropTypes.func,
+      formData: PropTypes.object,
+      addReview: PropTypes.func
   };
 
-    render() {
-    return (
-      <div className={css(styles.reviewsWrap)}>
-        <h3 className={css(styles.reviewTitle)}>Reviews
-          <FontIcon 
-            className={classNames("material-icons", css(styles.rateIcon))}
-            color={colors.primary1Color}>rate_review
-          </FontIcon>
-        </h3>
-        <AddReview />
-        <DisplayReviews />
-      </div>
-    );
+  render() {
+    const { reviews, setFormData, formData, addReview } = this.props;
+      return (
+        <div className={css(styles.reviewsWrap)}>
+          <h3 className={css(styles.reviewTitle)}>Reviews
+            <FontIcon 
+              className={classNames("material-icons", css(styles.rateIcon))}
+              color={colors.primary1Color}>rate_review
+            </FontIcon>
+          </h3>
+          <AddReview formData={formData} setFormData={setFormData} addReview={addReview} />
+          <DisplayReviews reviews={reviews} />
+        </div>
+      );
+    }
   }
-}
 
 const styles = StyleSheet.create({
   desc: {
@@ -52,15 +57,18 @@ const styles = StyleSheet.create({
 
 const actions = {
     searchProducts,
-    selectProduct
+    selectProduct,
+    setFormData,
+    addReview
 };
 
 const mapStateToProps = (state) => {
-    const products = fromJS(state).get('products');
-    
-    return {
-        
-    };
+  const reviews = fromJS(state).get('reviews');
+  const formData = reviews.get('formData', fromJS({})); 
+  return {
+      reviews: reviews.get('entities', fromJS({})),
+      formData: formData
+  };
 };
 
 

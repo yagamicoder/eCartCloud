@@ -1,39 +1,30 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import Paper from 'material-ui/Paper';
 import colors from '~/utils/colors';
 import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
+import moment from 'moment';
+import {fromJS} from 'immutable';
+import displayStars from '~/utils/displayStars';
 
 const DisplayReviews = ({reviews}) => {
-	return (
-		<div>
-			<Paper className={css(styles.reviewWrap)} style={{backgroundColor: '#F5F5F5'}} zDepth={2}>
-				<p className={css(styles.date)}>12/27/2016</p>
-				<h3 className={css(styles.reviewTitle)}>Should I buy?</h3>
-				<p>Posted by: Michael Smith</p>
-				<span>Rating:
-         <FontIcon 
-          className={classNames("material-icons", css(styles.rateIcon))}
-          color={colors.accent1Color}>star
-         </FontIcon>
-       	</span>
-				<p>My review of this awesome product blah blah blah blah</p>
-				<p>Helpful?</p>
-				<span>
-					<FontIcon 
-          	className={classNames("material-icons", css(styles.rateIcon))}
-          	color={colors.primary1Color}>thumb_up
-         	</FontIcon>(7)
-         </span>
-         <span>
-	         <FontIcon 
-	          className={classNames("material-icons", css(styles.rateIcon))}
-	          color={colors.primary1Color}>thumb_down
-	         </FontIcon>(12)
-         </span>
+	const mappedReviews = reviews.get('reviews', fromJS([])).reverse().map(review => {
+		const date = moment(review.get('submissionTime')).format('MM/DD/YYYY');
+		return (
+			<Paper key={review.get('title')} 
+				className={css(styles.reviewWrap)} style={{backgroundColor: '#F5F5F5'}} zDepth={2}>
+				<p className={css(styles.date)}>{date}</p>
+				<h3 className={css(styles.reviewTitle)}>{review.get('title')}</h3>
+				<p>Posted by: {review.get('reviewer')}</p>
+				<span>Rating: {displayStars(review.getIn(['overallRating', 'rating']))}</span>
+				<p>{review.get('reviewText')}</p>
 			</Paper>
-		</div>
+		);
+	});
+
+	return (
+		<div>{mappedReviews}</div>
 	);
 };
 
@@ -61,5 +52,8 @@ const styles = StyleSheet.create({
   }
 });
 
+DisplayReviews.propTypes = {
+	reviews: PropTypes.object
+};
 
 export default DisplayReviews;

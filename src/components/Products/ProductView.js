@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import { ProductSearch, ProductResults, LoadingProducts } from '~/components/';
 import { searchProducts, selectProduct } from '~/reducers/products';
+import { fetchReviews } from '~/reducers/reviews';
 
 export class ProductView extends Component {
   static propTypes = {
@@ -11,11 +12,12 @@ export class ProductView extends Component {
       prods: PropTypes.object,
       loading: PropTypes.bool,
       query: PropTypes.string,
-      loadingProductsErr: PropTypes.bool
+      loadingProductsErr: PropTypes.bool,
+      fetchReviews: PropTypes.func
   };
 
     render() {
-    const { searchProducts, prods, loading, query, selectProduct, loadingProductsErr } = this.props;
+    const { searchProducts, prods, loading, query, selectProduct, loadingProductsErr, fetchReviews } = this.props;
     return (
       <div>
         <div>
@@ -26,6 +28,7 @@ export class ProductView extends Component {
               products={prods} 
               query={query}
               error={loadingProductsErr} 
+              fetchReviews={fetchReviews}
               selectProduct={selectProduct} />
           }            
         </div>
@@ -37,7 +40,8 @@ export class ProductView extends Component {
 
 const actions = {
     searchProducts,
-    selectProduct
+    selectProduct,
+    fetchReviews
 };
 
 const mapStateToProps = (state) => {

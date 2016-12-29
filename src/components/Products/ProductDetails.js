@@ -5,22 +5,10 @@ import FontIcon from 'material-ui/FontIcon';
 import colors from '~/utils/colors';
 import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
-import { unescape, round, range } from 'lodash';
+import { unescape } from 'lodash';
 import sanitize from 'sanitize-html';
 import { ProductReviews } from '~/components';
-
-//Handle star icons
-const displayStars = (rating) => {
-	const ratingArray = range(1, round(rating));
-	return ratingArray.map(n => {
-		return	(
-			<FontIcon 
-				key={n} className={classNames("material-icons", css(styles.starIcon))}
-				color={colors.primary1Color}>star
-			</FontIcon>
-			);
-	});
-};
+import displayStars from '~/utils/displayStars';
 
 const ProductDetails = ({currentProduct}) => {
 	//Grab the properties that we want
