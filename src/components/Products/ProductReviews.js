@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
-import { DisplayReviews, AddReview } from '~/components/';
+import { DisplayReviews, AddReview, LoadingReviews } from '~/components/';
 import { searchProducts, selectProduct } from '~/reducers/products';
 import { setFormData, addReview } from  '~/reducers/reviews';
 import FontIcon from 'material-ui/FontIcon';
@@ -14,11 +14,13 @@ export class ProductReviews extends Component {
       reviews: PropTypes.object,
       setFormData: PropTypes.func,
       formData: PropTypes.object,
-      addReview: PropTypes.func
+      addReview: PropTypes.func,
+      loadingReviews: PropTypes.bool,
+      reviewError: PropTypes.bool
   };
 
   render() {
-    const { reviews, setFormData, formData, addReview } = this.props;
+    const { reviews, setFormData, formData, addReview, loadingReviews, reviewError } = this.props;
       return (
         <div className={css(styles.reviewsWrap)}>
           <h3 className={css(styles.reviewTitle)}>Reviews
@@ -28,7 +30,10 @@ export class ProductReviews extends Component {
             </FontIcon>
           </h3>
           <AddReview formData={formData} setFormData={setFormData} addReview={addReview} />
-          <DisplayReviews reviews={reviews} />
+          {loadingReviews ? 
+            <LoadingReviews /> :
+            <DisplayReviews reviews={reviews} error={reviewError} />
+          }
         </div>
       );
     }
@@ -64,10 +69,14 @@ const actions = {
 
 const mapStateToProps = (state) => {
   const reviews = fromJS(state).get('reviews');
-  const formData = reviews.get('formData', fromJS({})); 
+  const formData = reviews.get('formData', fromJS({}));
+  const loadingReviews = reviews.get('loadingReviews', false);
+  const reviewError = reviews.get('reviewError', false); 
   return {
       reviews: reviews.get('entities', fromJS({})),
-      formData: formData
+      formData: formData,
+      loadingReviews: loadingReviews,
+      reviewError: reviewError
   };
 };
 

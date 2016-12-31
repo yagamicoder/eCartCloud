@@ -11,6 +11,7 @@ import ProductDetails from './Products/ProductDetails';
 import LoadingProductDetails from './Products/LoadingProductDetails';
 import ProductReviews from './Products/ProductReviews';
 import DisplayReviews from './Products/DisplayReviews';
+import LoadingReviews from './Products/LoadingReviews';
 import AddReview from './Products/AddReview';
 
 export {
@@ -27,5 +28,6 @@ export {
   LoadingProductDetails,
   ProductReviews,
   DisplayReviews,
+  LoadingReviews,
   AddReview
 };

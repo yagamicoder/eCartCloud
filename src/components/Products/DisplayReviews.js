@@ -1,14 +1,26 @@
 import React, {PropTypes} from 'react';
-import FontIcon from 'material-ui/FontIcon';
 import Paper from 'material-ui/Paper';
 import colors from '~/utils/colors';
-import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
 import moment from 'moment';
 import {fromJS} from 'immutable';
 import displayStars from '~/utils/displayStars';
+import classNames from 'classNames';
+import FontIcon from 'material-ui/FontIcon';
 
-const DisplayReviews = ({reviews}) => {
+const Error = () => {
+  return (
+    <article className={css(styles.errorStyle)}>
+      <h3 className={css(styles.errorMessage)}>Error fetching reviews. Please trying again later.</h3>
+      <div>
+        <FontIcon className={classNames("material-icons", css(styles.errorIcon))}
+          color={colors.primary1Color}>error</FontIcon>
+      </div>  
+    </article>
+  );
+};
+
+const DisplayReviews = ({reviews, reviewError}) => {
 	const mappedReviews = reviews.get('reviews', fromJS([])).reverse().map(review => {
 		const date = moment(review.get('submissionTime')).format('MM/DD/YYYY');
 		return (
@@ -24,7 +36,9 @@ const DisplayReviews = ({reviews}) => {
 	});
 
 	return (
-		<div>{mappedReviews}</div>
+		<div>
+      {reviewError ? <Error /> : mappedReviews}  
+    </div>
 	);
 };
 
@@ -49,11 +63,25 @@ const styles = StyleSheet.create({
   reviewWrap: {
     padding: '15px 20px',
     marginBottom: '15px'
+  },
+  errorIcon: {
+    textAlign: 'center',
+    fontSize: '6em'
+  },
+  errorStyle: {
+    padding: '25px 0',
+    textAlign: 'center'
+  },
+  errorMessage: {
+    color: colors.primary1Color,
+    fontWeight: 'normal',
+    textAlign: 'center'
   }
 });
 
 DisplayReviews.propTypes = {
-	reviews: PropTypes.object
+	reviews: PropTypes.object,
+  reviewError: PropTypes.bool
 };
 
 export default DisplayReviews;
