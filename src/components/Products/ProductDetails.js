@@ -10,7 +10,7 @@ import sanitize from 'sanitize-html';
 import { ProductReviews } from '~/components';
 import displayStars from '~/utils/displayStars';
 
-const ProductDetails = ({currentProduct}) => {
+const ProductDetails = ({currentProduct, addToCart, cart}) => {
 	//Grab the properties that we want
 	const id = currentProduct.get('itemId');
 	const name = currentProduct.get('name');
@@ -21,6 +21,7 @@ const ProductDetails = ({currentProduct}) => {
 	const customerRating = currentProduct.get('customerRating');
 	const brandName = currentProduct.get('brandName');
 	const stock = currentProduct.get('stock');
+	const productInCart = id ? cart.get(id.toString()) : undefined;
 
 	return (
 		<div>	
@@ -40,10 +41,11 @@ const ProductDetails = ({currentProduct}) => {
 					<p>Brand: {brandName}</p>
 					<p>Rating: {displayStars(customerRating)}</p>
 					<RaisedButton
-						label="ADD TO CART"
+						label={!productInCart ? "ADD TO CART" : "ITEM IN CART"}
 						secondary={true}
 						className={css(styles.buttonStyle)}
-						onClick={() => console.log('Added item ' + id + 'to the cart')}
+						onClick={() => addToCart(currentProduct, id)}
+						disabled={productInCart ? true : false}
 						icon={<FontIcon 
 									className={classNames("material-icons", css(styles.iconStyle))}
 									color={colors.primary1Color}>shopping_cart
@@ -108,7 +110,9 @@ const styles = StyleSheet.create({
 });
 
 ProductDetails.propTypes = {
-	currentProduct: PropTypes.object
+	currentProduct: PropTypes.object,
+	addToCart: PropTypes.func,
+	cart: PropTypes.object
 };
 
 export default ProductDetails;

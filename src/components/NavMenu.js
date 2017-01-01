@@ -9,14 +9,16 @@ import {StyleSheet, css} from 'aphrodite';
 import classNames from 'classNames';
 import {fromJS} from 'immutable';
 import colors from '~/utils/colors';
+import { Link } from 'react-router';
 
 
 export class NavMenu extends Component {
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    cart: PropTypes.object
   }
   render() {
-    const { user } = this.props;
+    const { user, cart } = this.props;
       return (
         <Drawer containerStyle={nonAphroditeStyles}>
           <div className={css(styles.logo)}>
@@ -32,13 +34,15 @@ export class NavMenu extends Component {
             <h3 className={css(styles.name)}>Welcome {user.get('full_name')}!</h3>
           </div>
           <MenuItem className={css(styles.menuStyle)}>
-            <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
-              color={colors.white}>shopping_cart</FontIcon>            
-            <span className={css(styles.menuText)}>Cart</span>
-            <Badge
-              badgeContent={10}
-              secondary={true}
-              badgeStyle={badgeStyle} />
+            <Link to="/cart">
+              <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
+                color={colors.white}>shopping_cart</FontIcon>            
+              <span className={css(styles.menuText)}>Cart</span>
+              <Badge
+                badgeContent={cart.size}
+                secondary={true}
+                badgeStyle={badgeStyle} />
+            </Link>
           </MenuItem>
           <MenuItem className={css(styles.menuStyle)}>
             <FontIcon className={classNames("material-icons", css(styles.fontStyle))} 
@@ -60,7 +64,9 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   menuText: {
-    padding: '0 10px'
+    padding: '0 10px',
+    color: colors.white,
+    textDecoration: 'none'
   },
   fontStyle: {
     verticalAlign: 'middle'
@@ -110,8 +116,10 @@ const actions = {
 
 const mapStateToProps = (state) => {
   const user = fromJS(state).getIn(['user', 'entities'], fromJS({}));
+  const cart = fromJS(state).getIn(['cart', 'entities'], fromJS({}));
   return {
-    user: user
+    user: user,
+    cart: cart
   };
 };
 

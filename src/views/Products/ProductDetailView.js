@@ -4,15 +4,18 @@ import { fromJS } from 'immutable';
 import {Container, Row} from 'react-grid-system';
 import {StyleSheet, css} from 'aphrodite';
 import { ProductDetails, LoadingProductDetails } from '~/components';
+import { addToCart } from '~/reducers/cart';
 
 export class ProductDetailView extends Component {
   static propTypes = {
     currentProduct: PropTypes.object,
     error: PropTypes.bool,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    addToCart: PropTypes.func,
+    cart: PropTypes.object
   };
   render() {
-    const { currentProduct, error, loading } = this.props;
+    const { currentProduct, error, loading, addToCart, cart } = this.props;
     return (
       <div className={css(styles.outerWrap)}>
         <Container>
@@ -20,7 +23,7 @@ export class ProductDetailView extends Component {
             <div className={css(styles.wrapper)}>
             {loading || error ?
               <LoadingProductDetails error={error} loading={loading} /> :
-              <ProductDetails currentProduct={currentProduct} />  
+              <ProductDetails currentProduct={currentProduct} addToCart={addToCart} cart={cart} />  
             }
             </div>
           </Row>
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const actions = {
+  addToCart
 };
 
 const mapStateToProps = (state) => {
@@ -47,10 +51,12 @@ const mapStateToProps = (state) => {
   const currentProduct = products.get('currentProduct', fromJS({}));
   const productDetailError = products.get('productDetailError', false);
   const loadingProductDetail = products.get('loadingProductDetail', false);
+  const cart = fromJS(state).getIn(['cart', 'entities'], fromJS({}));
   return {
     currentProduct: currentProduct,
     error: productDetailError,
-    loading: loadingProductDetail
+    loading: loadingProductDetail,
+    cart: cart
   };
 };
 
