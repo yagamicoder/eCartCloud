@@ -15,7 +15,7 @@ export class CartView extends Component {
   render() {
     const { cart } = this.props;
     const cartArr = fromJS([cart]);
-    
+
     const cartItems = [];
     cartArr.map(item => {
       const cartItem = item.toJS();
@@ -23,7 +23,7 @@ export class CartView extends Component {
         cartItems.push(cartItem[key]);
       }
     });
-    
+
     const mapCartItems = cartItems.map(item => {
       return (
         <ListItem key={item.itemId}>
@@ -41,9 +41,9 @@ export class CartView extends Component {
             <div className={css(styles.wrapper)}>
               <h1>Cart total: $14.90</h1>
               <List>
-              {mapCartItems}
+                sdfsd
               </List>
-            </div> 
+            </div>
           </Row>
         </Container>
       </div>

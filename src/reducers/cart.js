@@ -15,13 +15,12 @@ export const constants = {
 // Actions
 // ------------------------------------
 export const setCartItems = createAction('SET_CART_ITEMS');
-export const addToCart = (item, id) => {
-	return(dispatch, getState) => {
+export const addToCart = (item) => {
+	return (dispatch, getState) => {
 		const state = fromJS(getState());
-		const cartItems = state.getIn(['cart', 'entities'], fromJS({}));
-		const cartObj = {[id]: item};
-		const mergedCartObj = cartItems.merge(cartObj);
-		dispatch(setCartItems(mergedCartObj));
+		const entities = state.getIn(['cart', 'entities'], fromJS([]));
+    const cartItems = entities.push(item);
+		dispatch(setCartItems(cartItems));
 	};
 };
 
@@ -30,7 +29,9 @@ export const actions = {
 };
 
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  entities: []
+});
 
 // ------------------------------------
 // Reducers

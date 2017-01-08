@@ -23,7 +23,7 @@ export class ProductDetailView extends Component {
             <div className={css(styles.wrapper)}>
             {loading || error ?
               <LoadingProductDetails error={error} loading={loading} /> :
-              <ProductDetails currentProduct={currentProduct} addToCart={addToCart} cart={cart} />  
+              <ProductDetails currentProduct={currentProduct} addToCart={addToCart} cart={cart} />
             }
             </div>
           </Row>

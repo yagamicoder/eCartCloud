@@ -21,10 +21,12 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 	const customerRating = currentProduct.get('customerRating');
 	const brandName = currentProduct.get('brandName');
 	const stock = currentProduct.get('stock');
-	const productInCart = id ? cart.get(id.toString()) : undefined;
+	const productInCart = cart.filter(obj => {
+		return id === obj.get('itemId');
+	});
 
 	return (
-		<div>	
+		<div>
 			<article className={css(styles.articleStyle)}>
 				<div className={css(styles.articleCol)}>
 					<Avatar src={image} size={300} style={{margin: '0 auto', display: 'block'}}/>
@@ -33,7 +35,7 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 					<h3 className={css(styles.productTitle)}>{name}</h3>
 					Price:
 					{retailPrice ? <span className={css(styles.retailPrice)}>${retailPrice}</span> : null}
-					{retailPrice ? 
+					{retailPrice ?
 							<span className={css(styles.salesPrice)}>${salePrice}</span>
 						: <span className={css(styles.noSalesPrice)}>${salePrice}</span>
 					}
@@ -41,12 +43,12 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 					<p>Brand: {brandName}</p>
 					<p>Rating: {displayStars(customerRating)}</p>
 					<RaisedButton
-						label={!productInCart ? "ADD TO CART" : "ITEM IN CART"}
+						label={productInCart.size === 0 ? "ADD TO CART" : "ITEM IN CART"}
 						secondary={true}
 						className={css(styles.buttonStyle)}
-						onClick={() => addToCart(currentProduct, id)}
-						disabled={productInCart ? true : false}
-						icon={<FontIcon 
+						onClick={() => addToCart(currentProduct)}
+						disabled={productInCart.size > 0 ? true : false}
+						icon={<FontIcon
 									className={classNames("material-icons", css(styles.iconStyle))}
 									color={colors.primary1Color}>shopping_cart
 									</FontIcon>} />
@@ -56,10 +58,10 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 						style={{'marginLeft': '10px'}}
 						className={css(styles.buttonStyle)}
 						onClick={() => console.log('Added item ' + id + 'to the wishlist')}
-						icon={<FontIcon 
+						icon={<FontIcon
 									className={classNames("material-icons", css(styles.iconStyle))}
 									color={colors.primary1Color}>favorite
-									</FontIcon>} />			
+									</FontIcon>} />
 				</div>
 			</article>
 			<div><p className={css(styles.desc)}>{sanitize(longDesc, {allowedTags: []})}</p></div>
@@ -70,7 +72,9 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 
 const styles = StyleSheet.create({
 	desc: {
-		fontSize: '0.8em'
+		fontSize: '1.1em',
+		padding: '15px 0',
+		lineHeight: '1.5em'
 	},
 	iconStyle: {
 		color: '#fff'

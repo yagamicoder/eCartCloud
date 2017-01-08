@@ -31,6 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "aphrodite": "1.1.0",
+    "bootstrap": "3.3.7",
     "bootstrap-grid-react": "2.0.1",
     "classnames": "2.2.5",
     "es6-promise": "4.0.5",
