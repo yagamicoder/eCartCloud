@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
-import {Container, Row} from 'react-grid-system';
 import {StyleSheet, css} from 'aphrodite';
 import { ProductDetails, LoadingProductDetails } from '~/components';
 import { addToCart } from '~/reducers/cart';
@@ -17,29 +16,19 @@ export class ProductDetailView extends Component {
   render() {
     const { currentProduct, error, loading, addToCart, cart } = this.props;
     return (
-      <div className={css(styles.outerWrap)}>
-        <Container>
-          <Row>
-            <div className={css(styles.wrapper)}>
-            {loading || error ?
-              <LoadingProductDetails error={error} loading={loading} /> :
-              <ProductDetails currentProduct={currentProduct} addToCart={addToCart} cart={cart} />
-            }
-            </div>
-          </Row>
-        </Container>
+      <div>
+        <div className={css(styles.wrapper)}>
+        {loading || error ?
+          <LoadingProductDetails error={error} loading={loading} /> :
+          <ProductDetails currentProduct={currentProduct} addToCart={addToCart} cart={cart} />
+        }
+        </div>
       </div>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    paddingLeft: '210px'
-  },
-  outerWrap: {
-    paddingBottom: '80px'
-  }
 });
 
 const actions = {

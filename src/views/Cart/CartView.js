@@ -3,76 +3,79 @@ import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import {Container, Row} from 'react-grid-system';
 import {StyleSheet, css} from 'aphrodite';
-import {List, ListItem} from 'material-ui/List';
+import { selectProduct } from '~/reducers/products';
+import { fetchReviews } from '~/reducers/reviews';
+import { deleteCartItem } from '~/reducers/cart';
+import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
 import classNames from 'classNames';
-import colors from '~/utils/colors';
+import { DisplayCartItems, CartFooter } from '~/components/Cart';
 
 export class CartView extends Component {
   static propTypes = {
-    cart: PropTypes.object
+    cart: PropTypes.object,
+    selectProduct: PropTypes.func,
+    fetchReviews: PropTypes.func,
+    deleteCartItem: PropTypes.func,
+    firstName: PropTypes.string
   };
+
   render() {
-    const { cart } = this.props;
-    const cartArr = fromJS([cart]);
-
-    const cartItems = [];
-    cartArr.map(item => {
-      const cartItem = item.toJS();
-      for(const key in cartItem) {
-        cartItems.push(cartItem[key]);
-      }
-    });
-
-    const mapCartItems = cartItems.map(item => {
-      return (
-        <ListItem key={item.itemId}>
-          {item.name}
-          <FontIcon className={classNames("material-icons", css(styles.logoStyle))}
-              color={colors.white}>close</FontIcon>
-        </ListItem>
-      );
-    });
+    const { cart, selectProduct, fetchReviews, deleteCartItem, firstName } = this.props;
 
     return (
       <div className={css(styles.outerWrap)}>
-        <Container>
-          <Row>
-            <div className={css(styles.wrapper)}>
-              <h1>Cart total: $14.90</h1>
-              <List>
-                sdfsd
-              </List>
-            </div>
-          </Row>
-        </Container>
+        <div className={css(styles.wrapper)}>
+          <h1 className={css(styles.heading)}>
+            Shopping Cart
+            <FontIcon
+              className={classNames("material-icons", css(styles.iconStyle))}
+              color={colors.primary1Color}>shopping_cart
+              </FontIcon>
+            </h1>
+          <p className={css(styles.intro)}>{firstName}, here is your shopping cart.</p>
+          <DisplayCartItems
+            cart={cart}
+            selectProduct={selectProduct}
+            fetchReviews={fetchReviews}
+            deleteCartItem={deleteCartItem} />
+          <CartFooter cart={cart} />
+        </div>
       </div>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    paddingLeft: '210px'
-  },
-  outerWrap: {
-    paddingBottom: '80px'
-  },
-  logoStyle: {
-    fontSize: '30px',
+  intro: {
     color: colors.primary1Color,
-    verticalAlign: 'middle',
-    marginRight: '5px'
+    textAlign: 'center',
+    fontSize: '1.5em',
+  },
+  heading: {
+    textAlign: 'center',
+    fontSize: '2em',
+    color: colors.primary2Color
+  },
+  iconStyle: {
+    margin: '0 15px',
+    verticalAlign: 'middle'
   }
 });
 
 const actions = {
+  selectProduct,
+  fetchReviews,
+  deleteCartItem
 };
 
 const mapStateToProps = (state) => {
-  const cart = fromJS(state).getIn(['cart', 'entities'], fromJS({}));
+  const cart = fromJS(state).getIn(['cart', 'entities'], fromJS([]));
+  const user = fromJS(state).getIn(['user', 'entities'], fromJS([]));
+  const firstName = user.get('first_name');
   return {
-    cart: cart
+    cart: cart,
+    firstName: firstName
   };
 };
 

@@ -24,8 +24,19 @@ export const addToCart = (item) => {
 	};
 };
 
+export const deleteCartItem = (id) => {
+  return (dispatch, getState) => {
+    const state = fromJS(getState());
+    const cart = state.getIn(['cart', 'entities'], fromJS([]));
+    const updatedCartItems = cart.filter(item => {
+      return id !== item.get('itemId');
+    });
+    dispatch(setCartItems(updatedCartItems));
+  };
+};
 export const actions = {
-  addToCart
+  addToCart,
+  deleteCartItem
 };
 
 

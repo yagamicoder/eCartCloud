@@ -4,6 +4,7 @@ import { fromJS } from 'immutable';
 import { ProductSearch, ProductResults, LoadingProducts } from '~/components/';
 import { searchProducts, selectProduct } from '~/reducers/products';
 import { fetchReviews } from '~/reducers/reviews';
+import { addToCart } from '~/reducers/cart';
 
 export class ProductView extends Component {
   static propTypes = {
@@ -13,24 +14,37 @@ export class ProductView extends Component {
       loading: PropTypes.bool,
       query: PropTypes.string,
       loadingProductsErr: PropTypes.bool,
-      fetchReviews: PropTypes.func
+      fetchReviews: PropTypes.func,
+      cart: PropTypes.object,
+      addToCart: PropTypes.func
   };
 
     render() {
-    const { searchProducts, prods, loading, query, selectProduct, loadingProductsErr, fetchReviews } = this.props;
+    const {
+      searchProducts,
+      prods,
+      loading,
+      query,
+      selectProduct,
+      loadingProductsErr,
+      fetchReviews,
+      cart,
+      addToCart } = this.props;
     return (
       <div>
         <div>
           <ProductSearch searchProducts={searchProducts} />
-          {loading ? 
-            <LoadingProducts /> : 
-            <ProductResults 
-              products={prods} 
+          {loading ?
+            <LoadingProducts /> :
+            <ProductResults
+              products={prods}
               query={query}
-              error={loadingProductsErr} 
+              error={loadingProductsErr}
               fetchReviews={fetchReviews}
-              selectProduct={selectProduct} />
-          }            
+              selectProduct={selectProduct}
+              cart={cart}
+              addToCart={addToCart} />
+          }
         </div>
       </div>
     );
@@ -41,11 +55,13 @@ export class ProductView extends Component {
 const actions = {
     searchProducts,
     selectProduct,
-    fetchReviews
+    fetchReviews,
+    addToCart
 };
 
 const mapStateToProps = (state) => {
     const products = fromJS(state).get('products');
+    const cart = fromJS(state).getIn(['cart', 'entities']);
     const prods = products.get('products', fromJS([]));
     const loading = products.get('loading', false);
     const query = products.get('query', '');
@@ -54,7 +70,8 @@ const mapStateToProps = (state) => {
         prods: prods,
         loading: loading,
         query: query,
-        loadingProductsErr: loadingProductsErr
+        loadingProductsErr: loadingProductsErr,
+        cart: cart
     };
 };
 

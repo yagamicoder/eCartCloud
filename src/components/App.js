@@ -10,11 +10,14 @@ class App extends React.Component {
     const path = window.location.pathname;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          {path !== '/' ? <div> <Header /> <NavMenu /> </div> : null}       
-          {this.props.children}
-          <Footer />
-        </div>
+        <section>
+          <div>{path !== '/' ? <NavMenu /> : null}</div>
+          <div style={{paddingLeft: '320px', maxWidth: '1600px', margin: '0 auto', paddingBottom: '150px'}}>
+            {path !== '/' ? <Header /> : null}
+            {this.props.children}
+            <Footer />
+          </div>
+        </section>
       </MuiThemeProvider>
     );
   }

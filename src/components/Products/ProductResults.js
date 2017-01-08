@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { truncate, isEmpty } from 'lodash';
 import { NoProductsView } from '~/components';
 
-const ProductResults = ({products, query, selectProduct, error, fetchReviews}) => {
+const ProductResults = ({products, query, selectProduct, error, fetchReviews, cart, addToCart}) => {
 	//Iterate through all of the results
 	const mappedProducts = !isEmpty(query) ? products.map(product => {
 		//Grab the properties that we want
@@ -19,6 +19,9 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews}) =
 		const salePrice = product.get('salePrice');
 		const retailPrice = product.get('msrp');
 		const shortDesc = truncate(product.get('shortDescription'), {'length': 250});
+		const productInCart = cart.filter(obj => {
+			return id === obj.get('itemId');
+		});
 
 		return (
 			<article className={css(styles.articleStyle)} key={id}>
@@ -29,7 +32,7 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews}) =
 					<h3 className={css(styles.productTitle)}>{name}</h3>
 					Price:
 					{retailPrice ? <span className={css(styles.retailPrice)}>${retailPrice}</span> : null}
-					{retailPrice ? 
+					{retailPrice ?
 						<span className={css(styles.salesPrice)}>${salePrice}</span> :
 						<span className={css(styles.noSalesPrice)}>${salePrice}</span>
 					}
@@ -43,6 +46,16 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews}) =
 						icon={
 							<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
 							color={colors.primary1Color}>keyboard_arrow_right</FontIcon>} />
+					<RaisedButton
+						label={productInCart.size === 0 ? "ADD TO CART" : "ITEM IN CART"}
+						secondary={true}
+						className={css(styles.buttonStyle)}
+						onClick={() => addToCart(product)}
+						disabled={productInCart.size > 0 ? true : false}
+						icon={<FontIcon
+									className={classNames("material-icons", css(styles.iconStyle))}
+									color={colors.primary1Color}>shopping_cart
+									</FontIcon>} />
 				</div>
 			</article>
 			);
@@ -56,7 +69,7 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews}) =
 				<div>
 					<FontIcon className={classNames("material-icons", css(styles.errorIcon))}
 						color={colors.primary1Color}>error</FontIcon>
-				</div>	
+				</div>
 			</article>	: mappedProducts
 			}
 		</div>
@@ -72,7 +85,7 @@ const styles = StyleSheet.create({
 		fontSize: '6em'
 	},
 	buttonStyle: {
-		marginTop: '15px'
+		margin: '15px'
 	},
 	articleStyle: {
 		display: 'flex',
@@ -115,7 +128,9 @@ ProductResults.propTypes = {
 	query: PropTypes.string,
 	selectProduct: PropTypes.func,
 	fetchReviews: PropTypes.func,
-	error: PropTypes.bool
+	error: PropTypes.bool,
+	cart: PropTypes.object,
+	addToCart: PropTypes.func
 };
 
 export default ProductResults;
