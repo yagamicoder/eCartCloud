@@ -15,10 +15,11 @@ import { Link } from 'react-router';
 export class NavMenu extends Component {
   static propTypes = {
     user: PropTypes.object,
-    cart: PropTypes.object
+    cart: PropTypes.object,
+    wishlist: PropTypes.object
   }
   render() {
-    const { user, cart } = this.props;
+    const { user, cart, wishlist } = this.props;
       return (
         <Drawer containerStyle={nonAphroditeStyles}>
           <div className={css(styles.logo)}>
@@ -29,30 +30,42 @@ export class NavMenu extends Component {
             </h2>
           </div>
           <div className={css(styles.profile)}>
-            <Avatar src={user.getIn(['picture', 'data', 'url'])} 
+            <Avatar src={user.getIn(['picture', 'data', 'url'])}
               size={150} style={{margin: '0 auto', 'display': 'block'}} />
             <h3 className={css(styles.name)}>Welcome {user.get('full_name')}!</h3>
           </div>
           <MenuItem className={css(styles.menuStyle)}>
             <Link to="/cart">
               <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
-                color={colors.white}>shopping_cart</FontIcon>            
+                color={colors.white}>shopping_cart</FontIcon>
               <span className={css(styles.menuText)}>Cart</span>
-              <Badge
-                badgeContent={cart.size}
-                secondary={true}
-                badgeStyle={badgeStyle} />
+              <span className={css(styles.badgeWrap)}>
+                <Badge
+                  badgeContent={cart.size}
+                  secondary={true}
+                  badgeStyle={badgeStyle} />
+              </span>
             </Link>
           </MenuItem>
           <MenuItem className={css(styles.menuStyle)}>
-            <FontIcon className={classNames("material-icons", css(styles.fontStyle))} 
-              color={colors.white}>favorite</FontIcon>
-            <span className={css(styles.menuText)}>Wishlist</span>
+            <Link to="/wishlist">
+              <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
+                color={colors.white}>favorite</FontIcon>
+              <span className={css(styles.menuText)}>Wishlist</span>
+              <span className={css(styles.badgeWrap)}>
+                <Badge
+                badgeContent={wishlist.size}
+                primary={true}
+                badgeStyle={badgeStyle} />
+              </span>
+            </Link>
           </MenuItem>
           <MenuItem className={css(styles.menuStyle)}>
-            <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
-             color={colors.white}>history</FontIcon>
-            <span className={css(styles.menuText)}>History</span>
+            <Link to="/history">
+              <FontIcon className={classNames("material-icons", css(styles.fontStyle))}
+               color={colors.white}>history</FontIcon>
+              <span className={css(styles.menuText)}>History</span>
+            </Link>
           </MenuItem>
         </Drawer>
       );
@@ -102,11 +115,11 @@ const nonAphroditeStyles = {
 };
 
 const badgeStyle = {
-  top: 'initial', 
-  right: 'initial', 
-  position: 'initial', 
-  width: '34px', 
-  height: '27px', 
+  top: 'initial',
+  right: 'initial',
+  position: 'initial',
+  width: '34px',
+  height: '27px',
   borderRadius: '26%'
 };
 
@@ -117,9 +130,11 @@ const actions = {
 const mapStateToProps = (state) => {
   const user = fromJS(state).getIn(['user', 'entities'], fromJS({}));
   const cart = fromJS(state).getIn(['cart', 'entities'], fromJS({}));
+  const wishlist = fromJS(state).getIn(['wishlist', 'entities'], fromJS({}));
   return {
     user: user,
-    cart: cart
+    cart: cart,
+    wishlist: wishlist
   };
 };
 

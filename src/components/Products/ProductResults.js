@@ -6,7 +6,8 @@ import colors from '~/utils/colors';
 import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router';
-import { truncate, isEmpty } from 'lodash';
+import { truncate, isEmpty, unescape } from 'lodash';
+import sanitize from 'sanitize-html';
 import { NoProductsView } from '~/components';
 
 const ProductResults = ({products, query, selectProduct, error, fetchReviews, cart, addToCart}) => {
@@ -18,7 +19,7 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews, ca
 		const image = product.get('largeImage');
 		const salePrice = product.get('salePrice');
 		const retailPrice = product.get('msrp');
-		const shortDesc = truncate(product.get('shortDescription'), {'length': 250});
+		const shortDesc = truncate(unescape(product.get('shortDescription')), {'length': 250});
 		const productInCart = cart.filter(obj => {
 			return id === obj.get('itemId');
 		});
@@ -36,7 +37,7 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews, ca
 						<span className={css(styles.salesPrice)}>${salePrice}</span> :
 						<span className={css(styles.noSalesPrice)}>${salePrice}</span>
 					}
-					<p>{shortDesc}</p>
+					<p>{sanitize(shortDesc, {allowedTags: []})}</p>
 					<RaisedButton
 						label="VIEW PRODUCT"
 						primary={true}

@@ -9,8 +9,9 @@ import { unescape } from 'lodash';
 import sanitize from 'sanitize-html';
 import { ProductReviews } from '~/components';
 import displayStars from '~/utils/displayStars';
+import { Link } from 'react-router';
 
-const ProductDetails = ({currentProduct, addToCart, cart}) => {
+const ProductDetails = ({currentProduct, addToCart, cart, addToWishlist, wishlist}) => {
 	//Grab the properties that we want
 	const id = currentProduct.get('itemId');
 	const name = currentProduct.get('name');
@@ -22,6 +23,9 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 	const brandName = currentProduct.get('brandName');
 	const stock = currentProduct.get('stock');
 	const productInCart = cart.filter(obj => {
+		return id === obj.get('itemId');
+	});
+	const productInWishlist = wishlist.filter(obj => {
 		return id === obj.get('itemId');
 	});
 
@@ -53,15 +57,23 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 									color={colors.primary1Color}>shopping_cart
 									</FontIcon>} />
 					<RaisedButton
-						label="WISHLIST"
+						label={productInWishlist.size === 0 ? "WISHLIST" : "ITEM IN WISHLIST"}
 						primary={true}
 						style={{'marginLeft': '10px'}}
 						className={css(styles.buttonStyle)}
-						onClick={() => console.log('Added item ' + id + 'to the wishlist')}
+						onClick={() => addToWishlist(currentProduct)}
+						disabled={productInWishlist.size > 0 ? true : false}
 						icon={<FontIcon
 									className={classNames("material-icons", css(styles.iconStyle))}
 									color={colors.primary1Color}>favorite
 									</FontIcon>} />
+					<p className={css(styles.continue)}>
+						<FontIcon
+              className={classNames("material-icons", css(styles.searchIcon))}
+              color={colors.primary1Color}>search
+            </FontIcon>
+						<Link to='/welcome'>Continue Shopping</Link>
+					</p>
 				</div>
 			</article>
 			<div><p className={css(styles.desc)}>{sanitize(longDesc, {allowedTags: []})}</p></div>
@@ -71,6 +83,16 @@ const ProductDetails = ({currentProduct, addToCart, cart}) => {
 };
 
 const styles = StyleSheet.create({
+	searchIcon: {
+    fontSize: '30px',
+    color: colors.primary2Color,
+    verticalAlign: 'middle',
+    marginRight: '5px'
+  },
+	continue: {
+		marginTop: '35px',
+		fontSize: '1.3em'
+	},
 	desc: {
 		fontSize: '1.1em',
 		padding: '15px 0',
@@ -115,6 +137,8 @@ const styles = StyleSheet.create({
 
 ProductDetails.propTypes = {
 	currentProduct: PropTypes.object,
+	addToWishlist: PropTypes.func,
+	wishlist: PropTypes.object,
 	addToCart: PropTypes.func,
 	cart: PropTypes.object
 };

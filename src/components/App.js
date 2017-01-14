@@ -12,7 +12,7 @@ class App extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <div>{path !== '/' ? <NavMenu /> : null}</div>
-          <div style={{paddingLeft: '320px', maxWidth: '1600px', margin: '0 auto', paddingBottom: '150px'}}>
+          <div style={{paddingLeft: '220px', maxWidth: '1600px', margin: '0 auto', paddingBottom: '150px'}}>
             {path !== '/' ? <Header /> : null}
             {this.props.children}
             <Footer />

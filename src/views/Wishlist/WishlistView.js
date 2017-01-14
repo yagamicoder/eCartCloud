@@ -4,41 +4,41 @@ import { fromJS } from 'immutable';
 import {StyleSheet, css} from 'aphrodite';
 import { selectProduct } from '~/reducers/products';
 import { fetchReviews } from '~/reducers/reviews';
-import { deleteCartItem } from '~/reducers/cart';
+import { deleteWishlistItem } from '~/reducers/wishlist';
 import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
 import classNames from 'classNames';
-import { DisplayCartItems, CartFooter } from '~/components/Cart';
+import { DisplayWishlistItems, WishlistFooter } from '~/components/Wishlist';
 
-export class CartView extends Component {
+export class WishlistView extends Component {
   static propTypes = {
-    cart: PropTypes.object,
+    wishlist: PropTypes.object,
     selectProduct: PropTypes.func,
     fetchReviews: PropTypes.func,
-    deleteCartItem: PropTypes.func,
+    deleteWishlistItem: PropTypes.func,
     firstName: PropTypes.string
   };
 
   render() {
-    const { cart, selectProduct, fetchReviews, deleteCartItem, firstName } = this.props;
+    const { wishlist, selectProduct, fetchReviews, deleteWishlistItem, firstName } = this.props;
 
     return (
       <div className={css(styles.outerWrap)}>
         <div className={css(styles.wrapper)}>
           <h1 className={css(styles.heading)}>
-            Shopping Cart
+            Wishlist
             <FontIcon
               className={classNames("material-icons", css(styles.iconStyle))}
-              color={colors.primary1Color}>shopping_cart
+              color={colors.primary1Color}>favorite
               </FontIcon>
             </h1>
-          <p className={css(styles.intro)}>{firstName}, here is your shopping cart.</p>
-          <DisplayCartItems
-            cart={cart}
+          <p className={css(styles.intro)}>{firstName}, here is your wishlist.</p>
+          <DisplayWishlistItems
+            wishlist={wishlist}
             selectProduct={selectProduct}
             fetchReviews={fetchReviews}
-            deleteCartItem={deleteCartItem} />
-          <CartFooter cart={cart} />
+            deleteWishlistItem={deleteWishlistItem} />
+          <WishlistFooter />
         </div>
       </div>
     );
@@ -65,18 +65,18 @@ const styles = StyleSheet.create({
 const actions = {
   selectProduct,
   fetchReviews,
-  deleteCartItem
+  deleteWishlistItem
 };
 
 const mapStateToProps = (state) => {
-  const cart = fromJS(state).getIn(['cart', 'entities'], fromJS([]));
+  const wishlist = fromJS(state).getIn(['wishlist', 'entities'], fromJS([]));
   const user = fromJS(state).getIn(['user', 'entities'], fromJS([]));
   const firstName = user.get('first_name');
   return {
-    cart: cart,
+    wishlist: wishlist,
     firstName: firstName
   };
 };
 
 
-export default connect(mapStateToProps, actions)(CartView);
+export default connect(mapStateToProps, actions)(WishlistView);
