@@ -7,11 +7,11 @@ import classNames from 'classNames';
 import colors from '~/utils/colors';
 import {Link} from 'react-router';
 
-const DisplayCartItems = ({cart, selectProduct, fetchReviews, deleteCartItem}) => {
+const DisplayHistory = ({history, selectProduct, fetchReviews, deleteHistoryItem}) => {
 
-  const mapCartItems = !cart.isEmpty() ? cart.reverse().map(item => {
+  const mapHistory = !history.isEmpty() ? history.reverse().map(item => {
     return (
-      <article key={item.get('itemId')} className={css(styles.cartItem)}>
+      <article key={item.get('itemId')} className={css(styles.historyItem)}>
         <div>
           <Avatar src={item.get('largeImage')} size={250} />
         </div>
@@ -21,46 +21,51 @@ const DisplayCartItems = ({cart, selectProduct, fetchReviews, deleteCartItem}) =
               onClick={() => { selectProduct(item.get('itemId')); fetchReviews(item.get('itemId')); }}>
               {item.get('name')}
             </Link>
+            <span className={css(styles.dateViewed)}>{item.get('dateViewed')}</span>
           </h2>
           <p className={css(styles.price)}>${item.get('salePrice', item.get('msrp'))}</p>
           <RaisedButton
             label="DELETE"
             primary={true}
             className={css(styles.buttonStyle)}
-            onClick={() => deleteCartItem(item.get('itemId'))}
+            onClick={() => deleteHistoryItem(item.get('itemId'))}
             icon={<FontIcon
                   className={classNames("material-icons", css(styles.iconStyle))}
-                  color={colors.primary1Color}>remove_shopping_cart
+                  color={colors.primary1Color}>delete
                   </FontIcon>} />
           </div>
         </article>
       );
-  }) : <h2 className={css(styles.noItems)}>No items in the cart.</h2>;
+  }) : <h2 className={css(styles.noItems)}>You have not viewed any items.</h2>;
   return (
-    <div className={css(styles.cartItemsWrap)}>
-      {mapCartItems}
+    <div className={css(styles.historyItemsWrap)}>
+      {mapHistory}
     </div>
   );
 };
 
-DisplayCartItems.propTypes = {
-  cart: PropTypes.object,
+DisplayHistory.propTypes = {
+  history: PropTypes.object,
   selectProduct: PropTypes.func,
   fetchReviews: PropTypes.func,
-  deleteCartItem: PropTypes.func
+  deleteHistoryItem: PropTypes.func
 };
 
 const styles = StyleSheet.create({
+  dateViewed: {
+    fontSize: '15px',
+    color: colors.primary2Color,
+    float: 'right'
+  },
   iconStyle: {
     fontSize: '30px',
     color: colors.white,
-    verticalAlign: 'middle',
     marginRight: '5px'
   },
   buttonStyle: {
 		marginTop: '15px'
 	},
-  cartItem: {
+  historyItem: {
     padding: '35px 0',
     borderBottom: '1px solid #E0E0E0',
     display: 'flex'
@@ -70,7 +75,8 @@ const styles = StyleSheet.create({
     fontSize: '1.5em'
   },
   prodInfo: {
-    paddingLeft: '50px'
+    paddingLeft: '50px',
+    width: '100vw'
   },
   price: {
     fontSize: '1.3em',
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
       transition: 'all ease 400ms'
     }
   },
-  cartItemsWrap: {
+  historyItemsWrap: {
     marginTop: '50px'
   },
   noItems: {
@@ -98,4 +104,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DisplayCartItems;
+export default DisplayHistory;

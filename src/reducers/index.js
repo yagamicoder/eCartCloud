@@ -5,6 +5,7 @@ import products from './products';
 import reviews from './reviews';
 import cart from './cart';
 import wishlist from './wishlist';
+import history from './history';
 
 import {routerReducer} from 'react-router-redux';
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   reviews,
   cart,
   wishlist,
+  history,
   routing: routerReducer
 });
 

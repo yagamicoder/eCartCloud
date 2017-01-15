@@ -9,9 +9,9 @@ import {Link} from 'react-router';
 
 const DisplayWishlistItems = ({wishlist, selectProduct, fetchReviews, deleteWishlistItem}) => {
 
-  const mapCartItems = !wishlist.isEmpty() ? wishlist.map(item => {
+  const mapWishlistItems = !wishlist.isEmpty() ? wishlist.reverse().map(item => {
     return (
-      <article key={item.get('itemId')} className={css(styles.cartItem)}>
+      <article key={item.get('itemId')} className={css(styles.wishlistItem)}>
         <div>
           <Avatar src={item.get('largeImage')} size={250} />
         </div>
@@ -30,15 +30,15 @@ const DisplayWishlistItems = ({wishlist, selectProduct, fetchReviews, deleteWish
             onClick={() => deleteWishlistItem(item.get('itemId'))}
             icon={<FontIcon
                   className={classNames("material-icons", css(styles.iconStyle))}
-                  color={colors.primary1Color}>remove_shopping_cart
+                  color={colors.primary1Color}>delete
                   </FontIcon>} />
           </div>
         </article>
       );
   }) : <h2 className={css(styles.noItems)}>No items in your wishlist.</h2>;
   return (
-    <div className={css(styles.cartItemsWrap)}>
-      {mapCartItems}
+    <div className={css(styles.wishlistItemsWrap)}>
+      {mapWishlistItems}
     </div>
   );
 };
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
 		marginTop: '15px'
 	},
-  cartItem: {
+  wishlistItem: {
     padding: '35px 0',
     borderBottom: '1px solid #E0E0E0',
     display: 'flex'
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       transition: 'all ease 400ms'
     }
   },
-  cartItemsWrap: {
+  wishlistItemsWrap: {
     marginTop: '50px'
   },
   noItems: {

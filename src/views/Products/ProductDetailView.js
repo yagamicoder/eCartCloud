@@ -5,6 +5,9 @@ import {StyleSheet, css} from 'aphrodite';
 import { ProductDetails, LoadingProductDetails } from '~/components';
 import { addToCart } from '~/reducers/cart';
 import { addToWishlist } from '~/reducers/wishlist';
+import { addToHistory } from '~/reducers/history';
+import moment from 'moment';
+import { isEqual } from 'lodash';
 
 export class ProductDetailView extends Component {
   static propTypes = {
@@ -14,8 +17,24 @@ export class ProductDetailView extends Component {
     addToWishlist: PropTypes.func,
     wishlist: PropTypes.object,
     addToCart: PropTypes.func,
-    cart: PropTypes.object
+    cart: PropTypes.object,
+    addToHistory: PropTypes.func,
+    history: PropTypes.object
   };
+
+  componentWillReceiveProps (nextProps) {
+    const { addToHistory, currentProduct, history } = this.props;
+    const timeStamp = moment().format('MM/DD/YYYY');
+    const dateObj = {'dateViewed': timeStamp};
+    const id = nextProps.currentProduct.get('itemId');
+    if(!isEqual(currentProduct.toJS(), nextProps.currentProduct.toJS())) {
+      const inHistory = history.find((item) => {
+        return item.get('itemId') === id;
+      });
+      //Only place item in the history if doesn't exist in the history
+      inHistory ? null : addToHistory(nextProps.currentProduct.merge(dateObj));
+    }
+  }
   render() {
     const { currentProduct, error, loading, addToCart, cart, addToWishlist, wishlist } = this.props;
     return (
@@ -41,7 +60,8 @@ const styles = StyleSheet.create({
 
 const actions = {
   addToCart,
-  addToWishlist
+  addToWishlist,
+  addToHistory
 };
 
 const mapStateToProps = (state) => {
@@ -51,12 +71,14 @@ const mapStateToProps = (state) => {
   const loadingProductDetail = products.get('loadingProductDetail', false);
   const cart = fromJS(state).getIn(['cart', 'entities'], fromJS({}));
   const wishlist = fromJS(state).getIn(['wishlist', 'entities'], fromJS({}));
+  const history = fromJS(state).getIn(['history', 'entities'], fromJS({}));
   return {
     currentProduct: currentProduct,
     error: productDetailError,
     loading: loadingProductDetail,
     cart: cart,
-    wishlist: wishlist
+    wishlist: wishlist,
+    history: history
   };
 };
 

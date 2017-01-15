@@ -15,16 +15,16 @@ const Error = () => {
       <div>
         <FontIcon className={classNames("material-icons", css(styles.errorIcon))}
           color={colors.primary1Color}>error</FontIcon>
-      </div>  
+      </div>
     </article>
   );
 };
 
 const DisplayReviews = ({reviews, reviewError}) => {
-	const mappedReviews = reviews.get('reviews', fromJS([])).reverse().map(review => {
+	const mappedReviews = reviews.get('reviews', fromJS([])).reverse().map((review, i) => {
 		const date = moment(review.get('submissionTime')).format('MM/DD/YYYY');
 		return (
-			<Paper key={review.get('title')} 
+			<Paper key={i}
 				className={css(styles.reviewWrap)} style={{backgroundColor: '#F5F5F5'}} zDepth={2}>
 				<p className={css(styles.date)}>{date}</p>
 				<h3 className={css(styles.reviewTitle)}>{review.get('title')}</h3>
@@ -37,7 +37,7 @@ const DisplayReviews = ({reviews, reviewError}) => {
 
 	return (
 		<div>
-      {reviewError ? <Error /> : mappedReviews}  
+      {reviewError ? <Error /> : mappedReviews}
     </div>
 	);
 };

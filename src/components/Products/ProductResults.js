@@ -26,17 +26,18 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews, ca
 
 		return (
 			<article className={css(styles.articleStyle)} key={id}>
-				<div className={css(styles.articleCol)}>
+				<div className={classNames(css(styles.avatarWrap), css(styles.articleCol))}>
 					<Avatar src={image} size={200} style={{margin: '0 auto', display: 'block'}}/>
 				</div>
-				<div className={css(styles.articleCol)}>
+				<div className={classNames(css(styles.prodWrap), css(styles.articleCol))}>
 					<h3 className={css(styles.productTitle)}>{name}</h3>
-					Price:
+					<p className={css(styles.price)}>Price:
 					{retailPrice ? <span className={css(styles.retailPrice)}>${retailPrice}</span> : null}
 					{retailPrice ?
 						<span className={css(styles.salesPrice)}>${salePrice}</span> :
 						<span className={css(styles.noSalesPrice)}>${salePrice}</span>
 					}
+					</p>
 					<p>{sanitize(shortDesc, {allowedTags: []})}</p>
 					<RaisedButton
 						label="VIEW PRODUCT"
@@ -78,6 +79,15 @@ const ProductResults = ({products, query, selectProduct, error, fetchReviews, ca
 };
 
 const styles = StyleSheet.create({
+	price: {
+		fontSize: '1.3em'
+	},
+	avatarWrap: {
+		maxWidth: '30%'
+	},
+	prodWrap: {
+		maxWidth: '70%'
+	},
 	iconStyle: {
 		color: '#fff'
 	},
@@ -91,7 +101,9 @@ const styles = StyleSheet.create({
 	articleStyle: {
 		display: 'flex',
 		padding: '25px 0',
-		borderBottom: '1px solid #E0E0E0'
+		borderBottom: '1px solid #E0E0E0',
+		margin: '0 auto',
+		maxWidth: '1200px'
 	},
 	errorStyle: {
 		padding: '25px 0',
