@@ -15,6 +15,7 @@ export const SET_QUERY = 'SET_QUERY';
 export const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT';
 export const SET_PRODUCT_DETAIL_ERR = 'SET_PRODUCT_DETAIL_ERR';
 export const SET_LOADING_PRODUCT_DETAIL = 'SET_LOADING_PRODUCT_DETAIL';
+export const RESET_PRODUCTS = 'RESET_PRODUCTS';
 
 export const constants = {
   SET_PRODUCTS,
@@ -24,7 +25,8 @@ export const constants = {
   SET_QUERY,
   SET_CURRENT_PRODUCT,
   SET_PRODUCT_DETAIL_ERR,
-  SET_LOADING_PRODUCT_DETAIL
+  SET_LOADING_PRODUCT_DETAIL,
+  RESET_PRODUCTS
 };
 
 
@@ -39,6 +41,7 @@ export const setQuery = createAction('SET_QUERY');
 export const setCurrentProduct = createAction('SET_CURRENT_PRODUCT');
 export const setProductDetailErr = createAction('SET_PRODUCT_DETAIL_ERR');
 export const setLoadingProductDetail = createAction('SET_LOADING_PRODUCT_DETAIL');
+export const resetProducts  = createAction(RESET_PRODUCTS);
 
 //Search for the products
 export const searchProducts = (query) => {
@@ -104,7 +107,8 @@ export const actions = {
   searchProducts,
   setLoadingProducts,
   setLoadingProductsError,
-  selectProduct
+  selectProduct,
+  resetProducts
 };
 
 
@@ -114,6 +118,7 @@ const initialState = fromJS({});
 // Reducers
 // ------------------------------------
 const reducer = handleActions({
+  [RESET_PRODUCTS]: () => initialState,
   [SET_PRODUCTS]: (state, {payload: prods}) => {
     return state.set('products', fromJS(prods));
   },

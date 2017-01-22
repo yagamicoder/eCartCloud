@@ -23,7 +23,7 @@ const AddReview = ({setFormData, formData, addReview}) => {
 		<div className={css(styles.addReviewWrap)}>
 			<p className={css(styles.desc)}>Add a review</p>
 			<form id="addReviewForm" action="javascript:void(0);">
-				<TextField 
+				<TextField
 					floatingLabelText="Title" fullWidth={true} name="title"
 					value={formData.get('title', '')}
 					onChange={() => {
@@ -31,13 +31,13 @@ const AddReview = ({setFormData, formData, addReview}) => {
 						setFormData(serialize(form, {hash: true}));
 					}}
 				/>
-    		<TextField floatingLabelText="Type your review here..." 
+    		<TextField floatingLabelText="Type your review here..."
 					fullWidth={true} multiLine={true} name="reviewText"
 					value={formData.get('reviewText', '')}
 					onChange={() => {
 						const form = document.querySelector('#addReviewForm');
 						setFormData(serialize(form, {hash: true}));
-					}} 
+					}}
 				/>
     		<p>Rating</p>
     		<RadioButtonGroup name="rating" defaultSelected="1" valueSelected={formData.get('rating', '1')}
@@ -72,8 +72,8 @@ const AddReview = ({setFormData, formData, addReview}) => {
         	style={radioStyle}
         	/>
     		</RadioButtonGroup>
-    		<RaisedButton disabled={validate(formData)} 
-    			label="Submit" secondary={true} className={css(styles.submitBtn)} 
+    		<RaisedButton disabled={validate(formData)}
+    			label="Submit" secondary={true} className={css(styles.submitBtn)}
     			onClick={() => addReview(formData)} />
 			</form>
 		</div>
@@ -112,7 +112,8 @@ const radioStyle = {
 
 AddReview.propTypes = {
 	setFormData: PropTypes.func,
-  formData: PropTypes.object
+  formData: PropTypes.object,
+	addReview: PropTypes.func
 };
 
 export default AddReview;

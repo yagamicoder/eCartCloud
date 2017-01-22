@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Avatar from 'material-ui/Avatar';
 import { StyleSheet, css } from 'aphrodite';
 import colors from '~/utils/colors';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const LoadingProfile = ({init}) => {
 	return (
@@ -9,7 +10,7 @@ const LoadingProfile = ({init}) => {
 			<Avatar src={init.getIn(['picture', 'data', 'url'])} size={150} style={{margin: '0 auto', 'display': 'block'}} />
     		<h3 className={css(styles.headerStyle)}>Welcome, {init.get('name')}!</h3>
     		<p className={css(styles.introMsg)}>Loading profile...</p>
-    		<img src={require('~/assets/images/loading.svg')} alt='Loading Icon' className={css(styles.loadingIcon)} />	
+				<CircularProgress size={70} thickness={4} className={css(styles.loadingIcon)} />
 		</div>
 	);
 };
@@ -26,8 +27,12 @@ const styles = StyleSheet.create({
   },
   loadingIcon: {
   	display: 'block',
-  	margin: '0 auto'
+  	margin: '45px auto'
   }
 });
+
+LoadingProfile.propTypes = {
+	init: PropTypes.object
+};
 
 export default LoadingProfile;

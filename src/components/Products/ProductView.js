@@ -4,7 +4,8 @@ import { fromJS } from 'immutable';
 import { ProductSearch, ProductResults, LoadingProducts } from '~/components/';
 import { searchProducts, selectProduct } from '~/reducers/products';
 import { fetchReviews } from '~/reducers/reviews';
-import { addToCart } from '~/reducers/cart';
+import { addToCart, openCartNotification } from '~/reducers/cart';
+import { NotificationMessage } from '~/shared';
 
 export class ProductView extends Component {
   static propTypes = {
@@ -16,7 +17,9 @@ export class ProductView extends Component {
       loadingProductsErr: PropTypes.bool,
       fetchReviews: PropTypes.func,
       cart: PropTypes.object,
-      addToCart: PropTypes.func
+      addToCart: PropTypes.func,
+      openCartNotification: PropTypes.func,
+      showCartMsg: PropTypes.bool
   };
 
     render() {
@@ -28,8 +31,11 @@ export class ProductView extends Component {
       selectProduct,
       loadingProductsErr,
       fetchReviews,
+      openCartNotification,
+      showCartMsg,
       cart,
       addToCart } = this.props;
+    const cartName = !cart.isEmpty() ? cart.last().get('name') : 'Item';
     return (
       <div>
         <div>
@@ -46,6 +52,11 @@ export class ProductView extends Component {
               addToCart={addToCart} />
           }
         </div>
+        <NotificationMessage
+          show={showCartMsg}
+          message={cartName + ' was added to the cart.'}
+          handleNotificationMsg={openCartNotification}
+          />
       </div>
     );
   }
@@ -56,7 +67,8 @@ const actions = {
     searchProducts,
     selectProduct,
     fetchReviews,
-    addToCart
+    addToCart,
+    openCartNotification
 };
 
 const mapStateToProps = (state) => {
@@ -66,12 +78,15 @@ const mapStateToProps = (state) => {
     const loading = products.get('loading', false);
     const query = products.get('query', '');
     const loadingProductsErr = products.get('loadingProductsErr', false);
+    const showCartMsg = fromJS(state).getIn(['cart', 'showCartMsg'], false);
+
     return {
         prods: prods,
         loading: loading,
         query: query,
         loadingProductsErr: loadingProductsErr,
-        cart: cart
+        cart: cart,
+        showCartMsg: showCartMsg
     };
 };
 

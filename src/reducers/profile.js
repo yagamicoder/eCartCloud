@@ -5,11 +5,13 @@ import { fromJS } from 'immutable';
 // Constants
 // ------------------------------------
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
-export const RESET_USER = 'RESET_USER';
+export const RESET_PROFILE = 'RESET_PROFILE';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 
 export const constants = {
   SET_USER_PROFILE,
-  RESET_USER
+  RESET_PROFILE,
+  UPDATE_PROFILE
 };
 
 
@@ -17,12 +19,16 @@ export const constants = {
 // Actions
 // ------------------------------------
 export const setUserProfile = createAction('SET_USER_PROFILE');
-export const resetUser = createAction(RESET_USER);
+export const resetProfile = createAction(RESET_PROFILE);
+export const updateProfile = () => {
+  return () => {
 
+  };
+};
 
 export const actions = {
   setUserProfile,
-  resetUser
+  resetProfile
 };
 
 
@@ -32,7 +38,7 @@ const initialState = fromJS({});
 // Reducers
 // ------------------------------------
 const reducer = handleActions({
-  [RESET_USER]: () => initialState,
+  [RESET_PROFILE]: () => initialState,
   [SET_USER_PROFILE]: (state, {payload: userObj}) => {
     return state.set('entities', fromJS(userObj));
   }

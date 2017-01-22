@@ -3,6 +3,7 @@ import FontIcon from 'material-ui/FontIcon';
 import colors from '~/utils/colors';
 import classNames from 'classNames';
 import { StyleSheet, css } from 'aphrodite';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const LoadingProductDetails = ({error, loading}) => {
 	return (
@@ -13,13 +14,13 @@ const LoadingProductDetails = ({error, loading}) => {
 				<div>
 					<FontIcon className={classNames("material-icons", css(styles.errorIcon))}
 						color={colors.primary1Color}>error</FontIcon>
-				</div>	
+				</div>
 			</div>	: null
 		}
 		{loading ?
 			<div className={css(styles.loadingWrap)}>
 				<h2 className={css(styles.headerStyle)}>Fetching product information...</h2>
-				<img src={require('~/assets/images/loading.svg')} alt='Loading Icon' className={css(styles.loadingIcon)} />	
+				<CircularProgress size={70} thickness={4} className={css(styles.loadingIcon)} />
 			</div> : null
 			}
 		</div>
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
 	},
 	loadingIcon: {
   	display: 'block',
-  	margin: '0 auto'
+  	margin: '45px auto'
   },
   headerStyle: {
   	fontWeight: 'normal',

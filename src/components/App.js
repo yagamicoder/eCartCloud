@@ -12,7 +12,7 @@ class App extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <section>
           <div>{path !== '/' ? <NavMenu /> : null}</div>
-          <div style={{paddingLeft: '220px', maxWidth: '1600px', margin: '0 auto', paddingBottom: '150px'}}>
+          <div style={path !== '/' ? wrapper : loginWrapper}>
             {path !== '/' ? <Header /> : null}
             {this.props.children}
             <Footer />
@@ -22,6 +22,18 @@ class App extends React.Component {
     );
   }
 }
+
+const wrapper = {
+  paddingLeft: '220px',
+  maxWidth: '1600px',
+  margin: '0 auto',
+  paddingBottom: '150px'
+};
+const loginWrapper = {
+  maxWidth: '1600px',
+  margin: '0 auto',
+  paddingBottom: '150px'
+};
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -43,7 +55,12 @@ const muiTheme = getMuiTheme({
   toolbar: {
       backgroundColor: colors.primary1Color,
       iconColor: fade(colors.textColor, 0.4)
-    }
+  },
+  snackbar: {
+    backgroundColor: colors.accent2Color,
+    textAlign: 'center',
+    zIndex: '999999999999999'
+  }
 });
 
 App.propTypes = {

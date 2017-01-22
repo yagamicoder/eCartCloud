@@ -1,7 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 import { fromJS } from 'immutable';
 import fetch from 'isomorphic-fetch';
-import { setUserProfile } from '../reducers/user';
+import { setUserProfile, resetUser } from '../reducers/user';
+import { resetProducts } from '../reducers/products';
 import { browserHistory } from 'react-router';
 import apiUrl from '../api/apiUrl';
 
@@ -10,10 +11,12 @@ import apiUrl from '../api/apiUrl';
 // ------------------------------------
 export const SET_LOGIN_DETAILS = 'SET_LOGIN_DETAILS';
 export const SET_LOADING_SCREEN = 'SET_LOADING_SCREEN';
+export const RESET_LOGIN = 'RESET_LOGIN';
 
 export const constants = {
   SET_LOGIN_DETAILS,
-  SET_LOADING_SCREEN
+  SET_LOADING_SCREEN,
+  RESET_LOGIN
 };
 
 // ------------------------------------
@@ -21,6 +24,7 @@ export const constants = {
 // ------------------------------------
 export const setloginDetails = createAction('SET_LOGIN_DETAILS');
 export const setLoadingScreen = createAction('SET_LOADING_SCREEN');
+export const resetLogin = createAction(RESET_LOGIN);
 
 export const login = (fbObj) => {
   return (dispatch) => {
@@ -57,8 +61,21 @@ export const login = (fbObj) => {
   };
 };
 
+export const logout = () => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(resetProducts());
+      dispatch(resetLogin());
+      dispatch(resetUser());
+      browserHistory.push('/');
+    }, 500);
+  };
+};
+
 export const actions = {
-  login
+  login,
+  logout,
+  resetLogin
 };
 
 
@@ -68,6 +85,7 @@ const initialState = fromJS({});
 // Reducers
 // ------------------------------------
 const reducer = handleActions({
+  [RESET_LOGIN]: () => initialState,
   [SET_LOGIN_DETAILS]: (state, {payload: loginObj}) => {
     return state.set('init', fromJS(loginObj));
   },

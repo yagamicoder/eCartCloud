@@ -9,6 +9,7 @@ import NotFoundPage from './components/NotFoundPage.js';
 import Cart from './views/Cart/CartView';
 import Wishlist from './views/Wishlist/WishlistView';
 import History from './views/History/HistoryView';
+import Profile from './views/Profile/ProfileView';
 
 export default (
   <Route path="/" component={App}>
@@ -18,6 +19,7 @@ export default (
     <Route path="cart" component={Cart} />
     <Route path="wishlist" component={Wishlist}/>
     <Route path="history" component={History}/>
+    <Route path="profile" component={Profile}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

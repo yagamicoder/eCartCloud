@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
       left: '0px',
       textAlign: 'center',
       color: colors.white,
-      zIndex: '99999'
+      zIndex: '2000'
     },
     bottomNavStyles: {
       backgroundColor: colors.primary1Color,

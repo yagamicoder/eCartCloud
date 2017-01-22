@@ -11,39 +11,36 @@ import colors from '~/utils/colors';
 import {fromJS} from 'immutable';
 import classNames from 'classNames';
 import {Link} from 'react-router';
+import { logout } from '~/reducers/login';
 
-class Header extends Component {
-  static proptypes = {
-	user: PropTypes.object
+export class Header extends Component {
+  static propTypes = {
+	user: PropTypes.object,
+  logout: PropTypes.func
   };
 
   render () {
-  	const { user } = this.props;
+  	const { user, logout } = this.props;
     return (
       <header>
 	      <Container>
 	        <Row>
 	          <div className={css(styles.wrapper)}>
 	           <div className={css(styles.userProfile)}>
-	             <Avatar src={user.getIn(['picture', 'data', 'url'])} 
+	             <Avatar src={user.getIn(['picture', 'data', 'url'])}
               	  size={50} />
               	 <span className={css(styles.userName)}>{user.get('first_name')}</span>
               	 <IconMenu iconButtonElement={
               	 	<IconButton style={{padding: '0px', width: '24px', height: '24px'}}>
-              	 	<FontIcon className={classNames("material-icons", css(styles.iconStyle))} 
+              	 	<FontIcon className={classNames("material-icons", css(styles.iconStyle))}
               	 	color={colors.primary1Color}>expand_more</FontIcon></IconButton>}>
               	 	<MenuItem containerElement={<Link to="/profile" />}>
-              	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))} 
+              	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))}
               	 	  color={colors.primary1Color}>person</FontIcon>
               	 	 Profile
               	 	</MenuItem>
-              	 	<MenuItem containerElement={<Link to="/settings" />}>
-              	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))} 
-              	 	  color={colors.primary1Color}>settings</FontIcon>
-              	 	 Settings
-              	 	</MenuItem>
-              	 	<MenuItem>
-              	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))} 
+              	 	<MenuItem onClick={() => logout()}>
+              	 	 <FontIcon className={classNames("material-icons", css(styles.iconMenuStyle))}
               	 	  color={colors.primary1Color}>exit_to_app</FontIcon>
               	 	 SignOut
               	 	</MenuItem>
@@ -80,6 +77,7 @@ const styles = StyleSheet.create({
 });
 
 const actions = {
+  logout
 };
 
 const mapStateToProps = (state) => {

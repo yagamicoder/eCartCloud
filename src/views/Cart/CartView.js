@@ -4,11 +4,12 @@ import { fromJS } from 'immutable';
 import {StyleSheet, css} from 'aphrodite';
 import { selectProduct } from '~/reducers/products';
 import { fetchReviews } from '~/reducers/reviews';
-import { deleteCartItem } from '~/reducers/cart';
+import { deleteCartItem, openCartNotification } from '~/reducers/cart';
 import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
 import classNames from 'classNames';
 import { DisplayCartItems, CartFooter } from '~/components/Cart';
+import { NotificationMessage } from '~/shared';
 
 export class CartView extends Component {
   static propTypes = {
@@ -16,11 +17,13 @@ export class CartView extends Component {
     selectProduct: PropTypes.func,
     fetchReviews: PropTypes.func,
     deleteCartItem: PropTypes.func,
-    firstName: PropTypes.string
+    firstName: PropTypes.string,
+    openCartNotification: PropTypes.func,
+    showCartMsg: PropTypes.bool
   };
 
   render() {
-    const { cart, selectProduct, fetchReviews, deleteCartItem, firstName } = this.props;
+    const { cart, selectProduct, fetchReviews, deleteCartItem, firstName, openCartNotification, showCartMsg } = this.props;
 
     return (
       <div className={css(styles.outerWrap)}>
@@ -40,6 +43,11 @@ export class CartView extends Component {
             deleteCartItem={deleteCartItem} />
           <CartFooter cart={cart} />
         </div>
+        <NotificationMessage
+          show={showCartMsg}
+          message='Item deleted from the cart.'
+          handleNotificationMsg={openCartNotification}
+          />
       </div>
     );
   }
@@ -65,16 +73,19 @@ const styles = StyleSheet.create({
 const actions = {
   selectProduct,
   fetchReviews,
-  deleteCartItem
+  deleteCartItem,
+  openCartNotification
 };
 
 const mapStateToProps = (state) => {
   const cart = fromJS(state).getIn(['cart', 'entities'], fromJS([]));
   const user = fromJS(state).getIn(['user', 'entities'], fromJS([]));
+  const showCartMsg = fromJS(state).getIn(['cart', 'showCartMsg'], false);
   const firstName = user.get('first_name');
   return {
     cart: cart,
-    firstName: firstName
+    firstName: firstName,
+    showCartMsg: showCartMsg
   };
 };
 
