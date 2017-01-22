@@ -4,6 +4,8 @@ import classNames from 'classNames';
 import Avatar from 'material-ui/Avatar';
 import colors from '~/utils/colors';
 import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router';
 
 const DisplayProfile = ({user}) => {
   return (
@@ -32,14 +34,29 @@ const DisplayProfile = ({user}) => {
           <h4 className={css(styles.info)}>
             <FontIcon className={classNames("material-icons", css(styles.infoIcon))}
               color={colors.primary1Color}>location_on</FontIcon>
-            Naperville, Illinois
+            {user.get('location', 'Location Unknown') ? user.get('location', 'Location Unknown') : 'Locatoin Unknown'}
           </h4>
+          <RaisedButton
+            label="CONTINUE SHOPPING"
+            primary={true}
+            style={{marginTop: '20px'}}
+            containerElement={<Link to='/welcome' />}
+            className={css(styles.buttonStyle)}
+            icon={<FontIcon
+                  className={classNames("material-icons", css(styles.searchIcon))}
+                  color={colors.primary1Color}>search
+                  </FontIcon>} />
         </div>
       </div>
       <div className={css(styles.bio)}>
         <hr />
         <h2 className={css(styles.bioHeader)}>Short Bio</h2>
-        <p className={css(styles.bioText)}>About text..blah blah blah</p>
+        <p className={css(styles.bioText)}>
+          {user.get('bio') ?
+            user.get('bio', 'Tell us something about you ' + user.get('first_name') + '!')
+          : 'Tell us something about you ' + user.get('first_name') + '!'
+          }
+        </p>
       </div>
     </div>
   );
@@ -91,6 +108,13 @@ const styles = StyleSheet.create({
   },
   profileCol: {
     flex: 2
-  }
+  },
+  searchIcon: {
+    fontSize: '30px',
+    color: colors.white,
+    verticalAlign: 'middle',
+    marginRight: '5px'
+  },
 });
+
 export default DisplayProfile;
