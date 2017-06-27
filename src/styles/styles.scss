@@ -1,3 +1,4 @@
+@import 'font-awesome/css/font-awesome.css';
 /* Variables */
 $vin-blue: #5bb7db;
 $vin-green: #60b044;
@@ -5,27 +6,60 @@ $vin-red: #ff0000;
 
 /* Styles */
 body {
-  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.4em;
-  color: #4d4d4d;
   min-width: 230px;
-  max-width: 550px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   font-smoothing: antialiased;
   font-weight: 300;
+  background: #FAFAFA;
+  font-family: 'Roboto', sans-serif;
 }
 
-td {
-	padding: 12px;
-}
-
-h2 {
-	color: $vin-blue;
+hr {
+  border: 1px solid #EEE;
 }
 
 .savings { color: $vin-green; }
 .loss { color: $vin-red; }
 input.small { width: 46px; }
 td.fuel-savings-label { width: 175px; }
+.buttonOveride {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-weight: inherit;
+    display: inline-block;
+    font-family: Roboto, sans-serif;
+    border: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0px;
+    padding: 0px 10px;
+    outline: none;
+    font-size: inherit;
+    box-sizing: border-box;
+    transform: translate(0px, 0px);
+    position: relative;
+    height: 36px;
+    line-height: 36px;
+    width: auto;
+    border-radius: 2px;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    background-color: rgb(255, 87, 34);
+    text-align: center;
+    color: #fff;
+    .fa {
+      user-select: none;
+      color: rgb(255, 255, 255);
+      position: relative;
+      font-size: 24px;
+      display: inline-block;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      vertical-align: middle;
+      margin: 0 7px;
+    }
+    &:hover {
+      background-color: #FF8A65;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    }
+}

@@ -5,6 +5,10 @@ import path from 'path';
 
 export default {
   resolve: {
+    root: path.resolve(__dirname),
+    alias: {
+        '~': 'src'
+    },
     extensions: ['', '.js', '.jsx', '.json']
   },
   debug: true,
